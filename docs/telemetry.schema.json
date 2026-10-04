@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/CodeThread386/kairos-streaming-rag/docs/telemetry.schema.json",
+  "title": "Kairos telemetry event",
+  "type": "object",
+  "required": ["event", "session_id", "turn_id", "seq", "t_stream_s", "wall_ms"],
+  "properties": {
+    "event": {"enum": ["session_started", "chunk_received", "controller_decision", "retrieval_started",
+                        "retrieval_completed", "sub_queries", "synthesis_started", "first_token", "answer_version",
+                        "suppression", "uncertainty", "turn_summary"]},
+    "session_id": {"type": "string"},
+    "turn_id": {"type": "integer", "minimum": 0},
+    "seq": {"type": "integer", "minimum": 1},
+    "t_stream_s": {"type": ["number", "null"]},
+    "wall_ms": {"type": "number", "minimum": 0}
+  },
+  "allOf": [
+    {"if": {"properties": {"event": {"const": "chunk_received"}}},
+     "then": {"required": ["text", "chars"]}},
+    {"if": {"properties": {"event": {"const": "controller_decision"}}},
+     "then": {"required": ["decision", "reason"],
+              "properties": {"decision": {"enum": ["WAIT", "RETRIEVE", "DECOMPOSE_AND_RETRIEVE", "SUPPRESS", "REFINE", "SYNTHESIZE"]}}}},
+    {"if": {"properties": {"event": {"const": "retrieval_started"}}},
+     "then": {"required": ["query_id", "query", "trigger"],
+              "properties": {"trigger": {"enum": ["provisional", "multi_intent", "upgrade", "final", "refinement", "eager"]}}}},
+    {"if": {"properties": {"event": {"const": "retrieval_completed"}}},
+     "then": {"required": ["query_id", "latency_ms", "hits", "top_score"],
+              "properties": {"hits": {"type": "array", "items": {"type": "object", "required": ["chunk_id", "score"]}}}}},
+    {"if": {"properties": {"event": {"const": "sub_queries"}}},
+     "then": {"required": ["sub_queries", "speculative_reuse"]}},
+    {"if": {"properties": {"event": {"const": "first_token"}}},
+     "then": {"required": ["ttft_ms"]}},
+    {"if": {"properties": {"event": {"const": "answer_version"}}},
+     "then": {"required": ["version", "parent", "mode", "text", "citations", "claims", "preserved", "added", "superseded"],
+              "properties": {"mode": {"enum": ["answer", "refinement", "presentation"]},
+                             "citations": {"type": "array", "items": {"type": "string", "pattern": "^\\S+ §[0-9.]+$"}}}}},
+    {"if": {"properties": {"event": {"const": "suppression"}}},
+     "then": {"required": ["reason", "retrieval_required"]}},
+    {"if": {"properties": {"event": {"const": "turn_summary"}}},
+     "then": {"required": ["turn_type", "retrieval_required", "latency", "counts", "cost", "early_retrieval"],
+              "properties": {"cost": {"type": "object", "required": ["llm_input_tokens", "llm_output_tokens", "est_usd"]}}}}
+  ]
+}

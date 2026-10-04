@@ -1,0 +1,1477 @@
+{
+  "env": {
+    "generated_at": "2026-10-04 10:36:36 Asia",
+    "python": "3.13.16",
+    "platform": "Linux-6.18.44-fc-v64-x86_64-with-glibc2.39",
+    "cpu_count": 2
+  },
+  "n_sessions": {
+    "tessera_test": 40,
+    "tessera_test2": 16,
+    "handbook18f_test": 12
+  },
+  "config": {
+    "corpus_path": "/home/claude/kairos-streaming-rag/corpus/tessera",
+    "index_cache_dir": ".kairos_cache",
+    "max_passage_words": 170,
+    "retrieval_mode": "hybrid",
+    "top_k": 4,
+    "rrf_k": 20,
+    "bm25_k1": 1.2,
+    "bm25_b": 0.6,
+    "w_bm25": 1.0,
+    "w_dense": 1.0,
+    "w_heading": 0.6,
+    "entity_boost": 0.35,
+    "scope_conflict_penalty": 0.45,
+    "numeric_boost": 0.3,
+    "controller_mode": "streaming",
+    "min_informativeness": 3.2,
+    "provisional_min_informativeness": 4.5,
+    "upgrade_min_new_tokens": 1,
+    "reuse_jaccard": 0.6,
+    "decomposition": true,
+    "merge_jaccard": 0.6,
+    "refinement": "refine",
+    "max_sentences_per_intent": 2,
+    "list_mode_max_items": 3,
+    "min_evidence_score": 0.3,
+    "min_aspect_coverage": 0.4,
+    "min_dense_support": 0.55,
+    "synthesis_mode": "extractive",
+    "llm_base_url": "",
+    "llm_model": "",
+    "llm_api_key": "",
+    "llm_timeout_s": 20.0,
+    "price_in_per_mtok": 0.0,
+    "price_out_per_mtok": 0.0,
+    "trace_dir": "traces",
+    "write_traces": false
+  },
+  "main": {
+    "turns": 54,
+    "G2_early_retrieval_rate": 1.0,
+    "G2_false_trigger_rate": 0.0,
+    "G2_median_lead_s": 2.56,
+    "G3_multi_intent_rate": 1.0,
+    "G3_all_sub_intents_rate": 1.0,
+    "G3_compound_turns": 18,
+    "over_fragmentation_rate": 0.0,
+    "subintent_recall@4": 1.0,
+    "subintent_mrr@4": 0.9639,
+    "answer_evidence_recall": 0.8955,
+    "key_fact_recall": 0.8551,
+    "unanswerable_abstention_rate": 1.0,
+    "false_abstention_rate": 0.0455,
+    "G4_citation_support_rate": 1.0,
+    "G4_claims_checked": 99,
+    "G4_fabricated_citations": 0,
+    "G5_refinement_pass_rate": 1.0,
+    "G5_refinement_turns": 8,
+    "G6_trace_coverage": 1.0,
+    "ttft_ms_p50": 2.563,
+    "ttft_ms_p95": 6.757,
+    "controller_us_p50": 1439.7,
+    "controller_us_p95": 2671.0,
+    "retrieval_ms_p50": 0.783,
+    "retrieval_ms_p95": 1.807,
+    "retrievals_per_turn": 1.907,
+    "wasted_retrievals_per_turn": 0.611,
+    "speculative_reuse_rate": 0.9397,
+    "llm_cost_usd_per_turn": 0.0,
+    "simulated_ttft_ms": {
+      "50": {
+        "p50": 2.8,
+        "p95": 54.2
+      },
+      "150": {
+        "p50": 2.8,
+        "p95": 154.2
+      },
+      "400": {
+        "p50": 2.8,
+        "p95": 404.2
+      }
+    },
+    "_failures": [
+      {
+        "id": "T02",
+        "turn": 2,
+        "gate": "key_fact",
+        "expected_any": [
+          "foreign currency"
+        ],
+        "answer": "The earlier answer still applies: employees are reimbursed for actual, reasonable and necessary business travel expenses that stay within the limits in this policy. [Doc_02 §1] Every claim must be supported by receipts and submitted in ExpenseHub within 30 days of returning from the trip. [Doc_02 §1"
+      },
+      {
+        "id": "T12",
+        "turn": 1,
+        "gate": "evidence",
+        "sub_intent": "hotel cap Germany",
+        "gold": [
+          "Doc_03 §3"
+        ],
+        "cited": [
+          "Doc_25 §2"
+        ]
+      },
+      {
+        "id": "T12",
+        "turn": 1,
+        "gate": "key_fact",
+        "expected_any": [
+          "USD 210"
+        ],
+        "answer": "Employees should start visa applications early: Schengen business visas take about 15 working days, Singapore business visas about 5 working days, and United States B1 visas depend on interview wait times, which can exceed 60 days. [Doc_25 §2] I could not verify cap for Germany from the documents."
+      },
+      {
+        "id": "T12",
+        "turn": 1,
+        "gate": "false_abstain",
+        "uncertainty": "I could not verify cap for Germany from the documents."
+      },
+      {
+        "id": "T18",
+        "turn": 1,
+        "gate": "evidence",
+        "sub_intent": "domestic booking lead time",
+        "gold": [
+          "Doc_04 §1"
+        ],
+        "cited": [
+          "Doc_02 §2"
+        ]
+      },
+      {
+        "id": "T18",
+        "turn": 1,
+        "gate": "key_fact",
+        "expected_any": [
+          "14 days"
+        ],
+        "answer": "Domestic flights are booked in economy class through TravelHub. [Doc_02 §2]"
+      },
+      {
+        "id": "T20",
+        "turn": 2,
+        "gate": "evidence",
+        "sub_intent": "hybrid event AV",
+        "gold": [
+          "Doc_17 §3"
+        ],
+        "cited": [
+          "Doc_14 §2",
+          "Doc_14 §3"
+        ]
+      },
+      {
+        "id": "T20",
+        "turn": 2,
+        "gate": "key_fact",
+        "expected_any": [
+          "technician",
+          "₹6,000"
+        ],
+        "answer": "The earlier answer still applies: the Golconda Room seats 28 in classroom layout and 40 in theatre layout. [Doc_14 §2] Pearl Residency Hotel, Gachibowli — The Topaz Room seats 25 in classroom layout. [Doc_14 §3] I could not verify participants joining for Hyderabad from the documents."
+      },
+      {
+        "id": "T20",
+        "turn": 2,
+        "gate": "false_abstain",
+        "uncertainty": "I could not verify participants joining for Hyderabad from the documents."
+      },
+      {
+        "id": "T23",
+        "turn": 1,
+        "gate": "evidence",
+        "sub_intent": "hotel limit United States",
+        "gold": [
+          "Doc_03 §3"
+        ],
+        "cited": [
+          "Doc_06 §3",
+          "Doc_27 §2"
+        ]
+      },
+      {
+        "id": "T23",
+        "turn": 1,
+        "gate": "key_fact",
+        "expected_any": [
+          "USD 240"
+        ],
+        "answer": "International per diem rates: The international per diem is USD 95 per day in Singapore, USD 90 per day in Germany and the rest of the European Union, USD 100 per day in the United States, USD 105 per day in the United Kingdom and USD 70 per day in all other countries. [Doc_06 §3]\nExceeding the hote"
+      },
+      {
+        "id": "T30",
+        "turn": 1,
+        "gate": "evidence",
+        "sub_intent": "two days before",
+        "gold": [
+          "Doc_32 §4"
+        ],
+        "cited": [
+          "Doc_32 §5"
+        ]
+      },
+      {
+        "id": "T30",
+        "turn": 1,
+        "gate": "key_fact",
+        "expected_any": [
+          "5%",
+          "headcount"
+        ],
+        "answer": "Send a feedback form within 2 days, upload slides and recordings to the Events drive, and close all invoices within 30 days. [Doc_32 §5]"
+      },
+      {
+        "id": "T31",
+        "turn": 1,
+        "gate": "key_fact",
+        "expected_any": [
+          "25 guests"
+        ],
+        "answer": "Spice Route Caterers: Spice Route Caterers serve North and South Indian buffets with vegetarian and non-vegetarian options. [Doc_09 §2]\nGreenLeaf Kitchen: GreenLeaf Kitchen offers vegetarian, vegan and Jain menus. [Doc_09 §3] Lunch costs ₹650 per person, with a minimum of 15 guests and 48 hours' not"
+      },
+      {
+        "id": "T34",
+        "turn": 1,
+        "gate": "key_fact",
+        "expected_any": [
+          "standard ride",
+          "screenshot"
+        ],
+        "answer": "Ride-hailing apps can be used for business travel within a city, including customer visits and airport transfers. [Doc_08 §3]"
+      },
+      {
+        "id": "T37",
+        "turn": 1,
+        "gate": "evidence",
+        "sub_intent": "per diem Chennai",
+        "gold": [
+          "Doc_06 §2"
+        ],
+        "cited": [
+          "Doc_02 §3",
+          "Doc_06 §1"
+        ]
+      },
+      {
+        "id": "T37",
+        "turn": 1,
+        "gate": "key_fact",
+        "expected_any": [
+          "₹1,500"
+        ],
+        "answer": "Hotel limits by city tier: Hotel stays are reimbursed up to ₹8,000 per night in Tier A cities (Mumbai, Delhi NCR and Bengaluru), up to ₹6,500 per night in Tier B cities (Pune, Hyderabad, Chennai and Kolkata), and up to ₹4,500 per night in all other cities. [Doc_02 §3]\nPer diem chennai: Receipts are "
+      },
+      {
+        "id": "T40",
+        "turn": 1,
+        "gate": "evidence",
+        "sub_intent": "overnight offsite approval",
+        "gold": [
+          "Doc_36 §2"
+        ],
+        "cited": [
+          "Doc_04 §4",
+          "Doc_36 §4"
+        ]
+      },
+      {
+        "id": "T40",
+        "turn": 1,
+        "gate": "key_fact",
+        "expected_any": [
+          "VP"
+        ],
+        "answer": "Alcohol: Alcohol is not paid for by the company at team offsites. [Doc_36 §4]\nCombining personal and business travel: Employees may extend a business trip for personal reasons if the extension does not raise the cost to the company. [Doc_04 §4] Any fare difference and the hotel nights for personal d"
+      }
+    ]
+  },
+  "g1": {
+    "pass": true,
+    "detail": "full replay suite (all runs) completed unattended in 17.9 s"
+  },
+  "test2": {
+    "turns": 21,
+    "G2_early_retrieval_rate": 1.0,
+    "G2_false_trigger_rate": 0.0,
+    "G2_median_lead_s": 2.175,
+    "G3_multi_intent_rate": 1.0,
+    "G3_all_sub_intents_rate": 1.0,
+    "G3_compound_turns": 6,
+    "over_fragmentation_rate": 0.0,
+    "subintent_recall@4": 1.0,
+    "subintent_mrr@4": 0.9792,
+    "answer_evidence_recall": 0.9583,
+    "key_fact_recall": 0.8333,
+    "unanswerable_abstention_rate": 1.0,
+    "false_abstention_rate": 0.0625,
+    "G4_citation_support_rate": 1.0,
+    "G4_claims_checked": 29,
+    "G4_fabricated_citations": 0,
+    "G5_refinement_pass_rate": 1.0,
+    "G5_refinement_turns": 3,
+    "G6_trace_coverage": 1.0,
+    "ttft_ms_p50": 1.942,
+    "ttft_ms_p95": 4.968,
+    "controller_us_p50": 1293.1,
+    "controller_us_p95": 2308.1,
+    "retrieval_ms_p50": 0.557,
+    "retrieval_ms_p95": 1.329,
+    "retrievals_per_turn": 1.667,
+    "wasted_retrievals_per_turn": 0.429,
+    "speculative_reuse_rate": 0.9259,
+    "llm_cost_usd_per_turn": 0.0,
+    "simulated_ttft_ms": {
+      "50": {
+        "p50": 2.0,
+        "p95": 55.0
+      },
+      "150": {
+        "p50": 2.0,
+        "p95": 155.0
+      },
+      "400": {
+        "p50": 2.0,
+        "p95": 405.0
+      }
+    },
+    "_failures": [
+      {
+        "id": "U01",
+        "turn": 1,
+        "gate": "key_fact",
+        "expected_any": [
+          "no extra fee",
+          "at no extra"
+        ],
+        "answer": "Tessera Bengaluru Campus, Whitefield: The Nandi Auditorium seats 120 in theatre layout. [Doc_13 §2] Lakeview Convention Centre, Hebbal — The Banyan Hall seats 150 in theatre layout and 90 in classroom layout, and it can be split into two halls of 75. [Doc_13 §3]\nThe Indigo Loft, Bengaluru: The Indig"
+      },
+      {
+        "id": "U02",
+        "turn": 2,
+        "gate": "evidence",
+        "sub_intent": "foreign currency receipt",
+        "gold": [
+          "Doc_03 §4",
+          "Doc_05 §2"
+        ],
+        "cited": [
+          "Doc_05 §3"
+        ]
+      },
+      {
+        "id": "U02",
+        "turn": 2,
+        "gate": "key_fact",
+        "expected_any": [
+          "USD 25",
+          "foreign currency"
+        ],
+        "answer": "The earlier answer still applies: if a receipt is lost, the employee may submit a missing receipt declaration for up to ₹2,000 per claim, no more than twice per quarter. [Doc_05 §3] I could not verify dinner abroad from the documents."
+      },
+      {
+        "id": "U02",
+        "turn": 2,
+        "gate": "false_abstain",
+        "uncertainty": "I could not verify dinner abroad from the documents."
+      },
+      {
+        "id": "U04",
+        "turn": 1,
+        "gate": "key_fact",
+        "expected_any": [
+          "10 AM"
+        ],
+        "answer": "Brew & Bite supplies coffee, snacks and working-lunch boxes. [Doc_09 §4] Brew & Bite — Lunch boxes cost ₹420 each with a minimum order of 10 boxes. [Doc_09 §4]"
+      },
+      {
+        "id": "U16",
+        "turn": 1,
+        "gate": "key_fact",
+        "expected_any": [
+          "fare difference",
+          "paid by the employee"
+        ],
+        "answer": "Employees may extend a business trip for personal reasons if the extension does not raise the cost to the company. [Doc_04 §4]"
+      }
+    ]
+  },
+  "asr": {
+    "turns": 54,
+    "G2_early_retrieval_rate": 0.9787,
+    "G2_false_trigger_rate": 0.0,
+    "G2_median_lead_s": 2.56,
+    "G3_multi_intent_rate": 0.9444,
+    "G3_all_sub_intents_rate": 0.8889,
+    "G3_compound_turns": 18,
+    "over_fragmentation_rate": 0.0,
+    "subintent_recall@4": 0.9851,
+    "subintent_mrr@4": 0.9117,
+    "answer_evidence_recall": 0.8507,
+    "key_fact_recall": 0.8116,
+    "unanswerable_abstention_rate": 1.0,
+    "false_abstention_rate": 0.0455,
+    "G4_citation_support_rate": 1.0,
+    "G4_claims_checked": 95,
+    "G4_fabricated_citations": 0,
+    "G5_refinement_pass_rate": 1.0,
+    "G5_refinement_turns": 8,
+    "G6_trace_coverage": 1.0,
+    "ttft_ms_p50": 2.719,
+    "ttft_ms_p95": 5.228,
+    "controller_us_p50": 1338.4,
+    "controller_us_p95": 2503.1,
+    "retrieval_ms_p50": 0.717,
+    "retrieval_ms_p95": 1.988,
+    "retrievals_per_turn": 1.889,
+    "wasted_retrievals_per_turn": 0.648,
+    "speculative_reuse_rate": 0.8617,
+    "llm_cost_usd_per_turn": 0.0,
+    "simulated_ttft_ms": {
+      "50": {
+        "p50": 3.1,
+        "p95": 55.2
+      },
+      "150": {
+        "p50": 3.1,
+        "p95": 155.2
+      },
+      "400": {
+        "p50": 3.1,
+        "p95": 405.2
+      }
+    },
+    "_failures": [
+      {
+        "id": "T02",
+        "turn": 2,
+        "gate": "key_fact",
+        "expected_any": [
+          "foreign currency"
+        ],
+        "answer": "The earlier answer still applies: employees are reimbursed for actual, reasonable and necessary business travel expenses that stay within the limits in this policy. [Doc_02 §1] Every claim must be supported by receipts and submitted in ExpenseHub within 30 days of returning from the trip. [Doc_02 §1"
+      },
+      {
+        "id": "T07",
+        "turn": 1,
+        "gate": "evidence",
+        "sub_intent": "Bengaluru catering cost",
+        "gold": [
+          "Doc_16 §1"
+        ],
+        "cited": [
+          "Doc_13 §2",
+          "Doc_13 §3"
+        ]
+      },
+      {
+        "id": "T07",
+        "turn": 1,
+        "gate": "evidence",
+        "sub_intent": "Bengaluru cancellation",
+        "gold": [
+          "Doc_15 §1",
+          "Doc_15 §2",
+          "Doc_15 §4"
+        ],
+        "cited": [
+          "Doc_13 §2",
+          "Doc_13 §3"
+        ]
+      },
+      {
+        "id": "T07",
+        "turn": 1,
+        "gate": "G3",
+        "utterance": "Um, so for a customer workshop in Bengaluru, uh, what venues can fit like 40 people, what does the catering cost, and what happens if we cancel?",
+        "sub_queries": [
+          "what happens if we cancel"
+        ],
+        "matched": 1
+      },
+      {
+        "id": "T07",
+        "turn": 1,
+        "gate": "key_fact",
+        "expected_any": [
+          "₹600",
+          "₹950"
+        ],
+        "answer": "Tessera Bengaluru Campus, Whitefield — The Nandi Auditorium seats 120 in theatre layout. [Doc_13 §2] Lakeview Convention Centre, Hebbal — The Banyan Hall seats 150 in theatre layout and 90 in classroom layout, and it can be split into two halls of 75. [Doc_13 §3]"
+      },
+      {
+        "id": "T07",
+        "turn": 1,
+        "gate": "key_fact",
+        "expected_any": [
+          "30 days",
+          "40%",
+          "5 days",
+          "10 days"
+        ],
+        "answer": "Tessera Bengaluru Campus, Whitefield — The Nandi Auditorium seats 120 in theatre layout. [Doc_13 §2] Lakeview Convention Centre, Hebbal — The Banyan Hall seats 150 in theatre layout and 90 in classroom layout, and it can be split into two halls of 75. [Doc_13 §3]"
+      },
+      {
+        "id": "T12",
+        "turn": 1,
+        "gate": "evidence",
+        "sub_intent": "hotel cap Germany",
+        "gold": [
+          "Doc_03 §3"
+        ],
+        "cited": [
+          "Doc_25 §2"
+        ]
+      },
+      {
+        "id": "T12",
+        "turn": 1,
+        "gate": "key_fact",
+        "expected_any": [
+          "USD 210"
+        ],
+        "answer": "Employees should start visa applications early: Schengen business visas take about 15 working days, Singapore business visas about 5 working days, and United States B1 visas depend on interview wait times, which can exceed 60 days. [Doc_25 §2] I could not verify flying next month cap for Berlin, Ger"
+      },
+      {
+        "id": "T12",
+        "turn": 1,
+        "gate": "false_abstain",
+        "uncertainty": "I could not verify flying next month cap for Berlin, Germany from the documents."
+      },
+      {
+        "id": "T18",
+        "turn": 1,
+        "gate": "evidence",
+        "sub_intent": "domestic booking lead time",
+        "gold": [
+          "Doc_04 §1"
+        ],
+        "cited": [
+          "Doc_02 §2"
+        ]
+      },
+      {
+        "id": "T18",
+        "turn": 1,
+        "gate": "key_fact",
+        "expected_any": [
+          "14 days"
+        ],
+        "answer": "Domestic flights are booked in economy class through TravelHub. [Doc_02 §2]"
+      },
+      {
+        "id": "T20",
+        "turn": 2,
+        "gate": "evidence",
+        "sub_intent": "hybrid event AV",
+        "gold": [
+          "Doc_17 §3"
+        ],
+        "cited": [
+          "Doc_14 §2",
+          "Doc_14 §3"
+        ]
+      },
+      {
+        "id": "T20",
+        "turn": 2,
+        "gate": "key_fact",
+        "expected_any": [
+          "technician",
+          "₹6,000"
+        ],
+        "answer": "The earlier answer still applies: the Golconda Room seats 28 in classroom layout and 40 in theatre layout. [Doc_14 §2] Pearl Residency Hotel, Gachibowli — The Topaz Room seats 25 in classroom layout. [Doc_14 §3] I could not verify participants joining for Hyderabad from the documents."
+      },
+      {
+        "id": "T20",
+        "turn": 2,
+        "gate": "false_abstain",
+        "uncertainty": "I could not verify participants joining for Hyderabad from the documents."
+      },
+      {
+        "id": "T23",
+        "turn": 1,
+        "gate": "evidence",
+        "sub_intent": "hotel limit United States",
+        "gold": [
+          "Doc_03 §3"
+        ],
+        "cited": [
+          "Doc_06 §3",
+          "Doc_27 §2"
+        ]
+      },
+      {
+        "id": "T23",
+        "turn": 1,
+        "gate": "key_fact",
+        "expected_any": [
+          "USD 240"
+        ],
+        "answer": "International per diem rates: The international per diem is USD 95 per day in Singapore, USD 90 per day in Germany and the rest of the European Union, USD 100 per day in the United States, USD 105 per day in the United Kingdom and USD 70 per day in all other countries. [Doc_06 §3]\nExceeding the hote"
+      },
+      {
+        "id": "T27",
+        "turn": 1,
+        "gate": "evidence",
+        "sub_intent": "insurance coverage",
+        "gold": [
+          "Doc_03 §5",
+          "Doc_26 §1"
+        ],
+        "cited": [
+          "Doc_03 §4",
+          "Doc_25 §4"
+        ]
+      },
+      {
+        "id": "T27",
+        "turn": 1,
+        "gate": "key_fact",
+        "expected_any": [
+          "USD 250,000"
+        ],
+        "answer": "Foreign currency receipt verification: All expenses paid in a foreign currency are subject to mandatory foreign currency receipt verification. [Doc_03 §4] Each claim must include the original itemised receipt showing the merchant, date, amount and currency. [Doc_03 §4]\nPassport validity: Passports m"
+      },
+      {
+        "id": "T28",
+        "turn": 1,
+        "gate": "G2",
+        "utterance": "So I was wondering, because my manager mentioned it the other day and I wasn't really sure, how many weeks of parental leave do adoptive parents get?"
+      },
+      {
+        "id": "T30",
+        "turn": 1,
+        "gate": "evidence",
+        "sub_intent": "two days before",
+        "gold": [
+          "Doc_32 §4"
+        ],
+        "cited": [
+          "Doc_32 §1"
+        ]
+      },
+      {
+        "id": "T30",
+        "turn": 1,
+        "gate": "key_fact",
+        "expected_any": [
+          "5%",
+          "headcount"
+        ],
+        "answer": "Define the workshop objectives and the target audience, register the event in EventHub, and shortlist two or three venues from the city venue catalog. [Doc_32 §1]"
+      },
+      {
+        "id": "T31",
+        "turn": 1,
+        "gate": "key_fact",
+        "expected_any": [
+          "25 guests"
+        ],
+        "answer": "Spice Route Caterers: Spice Route Caterers serve North and South Indian buffets with vegetarian and non-vegetarian options. [Doc_09 §2]\nGreenLeaf Kitchen: GreenLeaf Kitchen offers vegetarian, vegan and Jain menus. [Doc_09 §3] Lunch costs ₹650 per person, with a minimum of 15 guests and 48 hours' not"
+      },
+      {
+        "id": "T34",
+        "turn": 1,
+        "gate": "key_fact",
+        "expected_any": [
+          "standard ride",
+          "screenshot"
+        ],
+        "answer": "Ride-hailing apps can be used for business travel within a city, including customer visits and airport transfers. [Doc_08 §3]"
+      },
+      {
+        "id": "T37",
+        "turn": 1,
+        "gate": "evidence",
+        "sub_intent": "per diem Chennai",
+        "gold": [
+          "Doc_06 §2"
+        ],
+        "cited": [
+          "Doc_02 §3",
+          "Doc_06 §1"
+        ]
+      },
+      {
+        "id": "T37",
+        "turn": 1,
+        "gate": "key_fact",
+        "expected_any": [
+          "₹1,500"
+        ],
+        "answer": "Hotel limits by city tier: Hotel stays are reimbursed up to ₹8,000 per night in Tier A cities (Mumbai, Delhi NCR and Bengaluru), up to ₹6,500 per night in Tier B cities (Pune, Hyderabad, Chennai and Kolkata), and up to ₹4,500 per night in all other cities. [Doc_02 §3]\nPer diem chennai: Receipts are "
+      },
+      {
+        "id": "T40",
+        "turn": 1,
+        "gate": "evidence",
+        "sub_intent": "overnight offsite approval",
+        "gold": [
+          "Doc_36 §2"
+        ],
+        "cited": [
+          "Doc_04 §4",
+          "Doc_36 §4"
+        ]
+      },
+      {
+        "id": "T40",
+        "turn": 1,
+        "gate": "key_fact",
+        "expected_any": [
+          "VP"
+        ],
+        "answer": "Alcohol: Alcohol is not paid for by the company at team offsites. [Doc_36 §4]\nCombining personal and business travel: Employees may extend a business trip for personal reasons if the extension does not raise the cost to the company. [Doc_04 §4] Any fare difference and the hotel nights for personal d"
+      }
+    ]
+  },
+  "handbook": {
+    "turns": 13,
+    "G2_early_retrieval_rate": 1.0,
+    "G2_false_trigger_rate": null,
+    "G2_median_lead_s": 2.17,
+    "G3_multi_intent_rate": 0.6,
+    "G3_all_sub_intents_rate": 0.6,
+    "G3_compound_turns": 5,
+    "over_fragmentation_rate": 0.0,
+    "subintent_recall@4": 0.8889,
+    "subintent_mrr@4": 0.7222,
+    "answer_evidence_recall": 0.7222,
+    "key_fact_recall": 0.7222,
+    "unanswerable_abstention_rate": null,
+    "false_abstention_rate": 0.2308,
+    "G4_citation_support_rate": 1.0,
+    "G4_claims_checked": 25,
+    "G4_fabricated_citations": 0,
+    "G5_refinement_pass_rate": 1.0,
+    "G5_refinement_turns": 1,
+    "G6_trace_coverage": 1.0,
+    "ttft_ms_p50": 3.125,
+    "ttft_ms_p95": 4.531,
+    "controller_us_p50": 1691.2,
+    "controller_us_p95": 3262.7,
+    "retrieval_ms_p50": 1.613,
+    "retrieval_ms_p95": 4.198,
+    "retrievals_per_turn": 1.692,
+    "wasted_retrievals_per_turn": 0.308,
+    "speculative_reuse_rate": 0.9615,
+    "llm_cost_usd_per_turn": 0.0,
+    "simulated_ttft_ms": {
+      "50": {
+        "p50": 3.1,
+        "p95": 4.5
+      },
+      "150": {
+        "p50": 3.1,
+        "p95": 4.5
+      },
+      "400": {
+        "p50": 3.1,
+        "p95": 4.5
+      }
+    },
+    "_failures": [
+      {
+        "id": "H01",
+        "turn": 1,
+        "gate": "evidence",
+        "sub_intent": "using travel comp time",
+        "gold": [
+          "overtime §11"
+        ],
+        "cited": [
+          "overtime §10"
+        ]
+      },
+      {
+        "id": "H01",
+        "turn": 1,
+        "gate": "G3",
+        "utterance": "How are travel comp time hours calculated, and how long do I have to use them?",
+        "sub_queries": [
+          "How are travel comp time hours calculated",
+          "how long do I have to use them"
+        ],
+        "matched": 1
+      },
+      {
+        "id": "H01",
+        "turn": 1,
+        "gate": "key_fact",
+        "expected_any": [
+          "one year",
+          "26 pay periods"
+        ],
+        "answer": "For calculating travel comp time hours, travel ends when you check in at the hotel or arrive home. [overtime §10] Travel comp time hours are based on elapsed time. [overtime §10] I could not verify use for Comp Time Fact Sheet from the documents."
+      },
+      {
+        "id": "H01",
+        "turn": 1,
+        "gate": "false_abstain",
+        "uncertainty": "I could not verify use for Comp Time Fact Sheet from the documents."
+      },
+      {
+        "id": "H03",
+        "turn": 1,
+        "gate": "key_fact",
+        "expected_any": [
+          "240 hour"
+        ],
+        "answer": "Use or Lose is the number of annual leave hours you would forfeit at the end of the leave year, if you do not use any of your annual leave hours between now and then. [leave §4]"
+      },
+      {
+        "id": "H04",
+        "turn": 1,
+        "gate": "evidence",
+        "sub_intent": "voting",
+        "gold": [
+          "leave §23.1",
+          "leave §23.2"
+        ],
+        "cited": [
+          "leave §1.2",
+          "leave §24"
+        ]
+      },
+      {
+        "id": "H05",
+        "turn": 1,
+        "gate": "evidence",
+        "sub_intent": "request PPL prior to birth",
+        "gold": [
+          "paid-parental-leave §8"
+        ],
+        "cited": []
+      },
+      {
+        "id": "H05",
+        "turn": 1,
+        "gate": "key_fact",
+        "expected_any": [
+          "Paid Parental Leave Request",
+          "HR Specialist"
+        ],
+        "answer": "I could not verify baby born for Parental Bereavement Leave from the documents."
+      },
+      {
+        "id": "H05",
+        "turn": 1,
+        "gate": "false_abstain",
+        "uncertainty": "I could not verify baby born for Parental Bereavement Leave from the documents."
+      },
+      {
+        "id": "H07",
+        "turn": 1,
+        "gate": "key_fact",
+        "expected_any": [
+          "Advanced Sick Leave Request",
+          "HR Specialist",
+          "supervisor"
+        ],
+        "answer": "You can request up to 240 hours of advanced sick leave. [leave §13]"
+      },
+      {
+        "id": "H08",
+        "turn": 1,
+        "gate": "evidence",
+        "sub_intent": "baggage fees",
+        "gold": [
+          "travel-guide-3-travel §8"
+        ],
+        "cited": [
+          "travel-guide-3-travel §4.1"
+        ]
+      },
+      {
+        "id": "H08",
+        "turn": 1,
+        "gate": "G3",
+        "utterance": "How do meals and incidental expenses work, and are baggage fees covered?",
+        "sub_queries": [
+          "How do meals and incidental expenses work",
+          "are baggage fees covered"
+        ],
+        "matched": 1
+      },
+      {
+        "id": "H08",
+        "turn": 1,
+        "gate": "key_fact",
+        "expected_any": [
+          "one bag"
+        ],
+        "answer": "In addition to receiving round trip tickets to your destination and lodging for the nights that you need to stay there, you also get a flat-rate per diem for Meals and Incidental Expenses (M&IE). [travel-guide-3-travel §4.1] A few things to remember: M&IE is given to you to cover the additional expe"
+      },
+      {
+        "id": "H08",
+        "turn": 1,
+        "gate": "false_abstain",
+        "uncertainty": "I could not verify baggage covered for Incidental Expenses from the documents."
+      },
+      {
+        "id": "H10",
+        "turn": 1,
+        "gate": "evidence",
+        "sub_intent": "mileage",
+        "gold": [
+          "travel-guide-3-travel §9"
+        ],
+        "cited": [
+          "travel-guide-faq §15"
+        ]
+      }
+    ]
+  },
+  "handbook_ablations": {
+    "hybrid (Kairos)": {
+      "turns": 13,
+      "G2_early_retrieval_rate": 1.0,
+      "G2_false_trigger_rate": null,
+      "G2_median_lead_s": 2.17,
+      "G3_multi_intent_rate": 0.6,
+      "G3_all_sub_intents_rate": 0.6,
+      "G3_compound_turns": 5,
+      "over_fragmentation_rate": 0.0,
+      "subintent_recall@4": 0.8889,
+      "subintent_mrr@4": 0.7222,
+      "answer_evidence_recall": 0.7222,
+      "key_fact_recall": 0.7222,
+      "unanswerable_abstention_rate": null,
+      "false_abstention_rate": 0.2308,
+      "G4_citation_support_rate": 1.0,
+      "G4_claims_checked": 25,
+      "G4_fabricated_citations": 0,
+      "G5_refinement_pass_rate": 1.0,
+      "G5_refinement_turns": 1,
+      "G6_trace_coverage": 1.0,
+      "ttft_ms_p50": 3.287,
+      "ttft_ms_p95": 6.316,
+      "controller_us_p50": 1631.2,
+      "controller_us_p95": 4071.2,
+      "retrieval_ms_p50": 1.577,
+      "retrieval_ms_p95": 2.608,
+      "retrievals_per_turn": 1.692,
+      "wasted_retrievals_per_turn": 0.308,
+      "speculative_reuse_rate": 0.9615,
+      "llm_cost_usd_per_turn": 0.0,
+      "simulated_ttft_ms": {
+        "50": {
+          "p50": 3.3,
+          "p95": 6.3
+        },
+        "150": {
+          "p50": 3.3,
+          "p95": 6.3
+        },
+        "400": {
+          "p50": 3.3,
+          "p95": 6.3
+        }
+      }
+    },
+    "dense-only": {
+      "turns": 13,
+      "G2_early_retrieval_rate": 1.0,
+      "G2_false_trigger_rate": null,
+      "G2_median_lead_s": 2.17,
+      "G3_multi_intent_rate": 0.6,
+      "G3_all_sub_intents_rate": 0.6,
+      "G3_compound_turns": 5,
+      "over_fragmentation_rate": 0.0,
+      "subintent_recall@4": 0.8889,
+      "subintent_mrr@4": 0.6759,
+      "answer_evidence_recall": 0.6667,
+      "key_fact_recall": 0.6667,
+      "unanswerable_abstention_rate": null,
+      "false_abstention_rate": 0.2308,
+      "G4_citation_support_rate": 1.0,
+      "G4_claims_checked": 25,
+      "G4_fabricated_citations": 0,
+      "G5_refinement_pass_rate": 1.0,
+      "G5_refinement_turns": 1,
+      "G6_trace_coverage": 1.0,
+      "ttft_ms_p50": 3.025,
+      "ttft_ms_p95": 6.376,
+      "controller_us_p50": 1361.8,
+      "controller_us_p95": 3088.8,
+      "retrieval_ms_p50": 1.337,
+      "retrieval_ms_p95": 1.724,
+      "retrievals_per_turn": 1.692,
+      "wasted_retrievals_per_turn": 0.308,
+      "speculative_reuse_rate": 0.9615,
+      "llm_cost_usd_per_turn": 0.0,
+      "simulated_ttft_ms": {
+        "50": {
+          "p50": 3.0,
+          "p95": 7.4
+        },
+        "150": {
+          "p50": 3.0,
+          "p95": 7.4
+        },
+        "400": {
+          "p50": 3.0,
+          "p95": 7.4
+        }
+      }
+    },
+    "sparse-only (BM25)": {
+      "turns": 13,
+      "G2_early_retrieval_rate": 1.0,
+      "G2_false_trigger_rate": null,
+      "G2_median_lead_s": 2.17,
+      "G3_multi_intent_rate": 0.6,
+      "G3_all_sub_intents_rate": 0.6,
+      "G3_compound_turns": 5,
+      "over_fragmentation_rate": 0.0,
+      "subintent_recall@4": 0.8333,
+      "subintent_mrr@4": 0.713,
+      "answer_evidence_recall": 0.6667,
+      "key_fact_recall": 0.6667,
+      "unanswerable_abstention_rate": null,
+      "false_abstention_rate": 0.2308,
+      "G4_citation_support_rate": 1.0,
+      "G4_claims_checked": 25,
+      "G4_fabricated_citations": 0,
+      "G5_refinement_pass_rate": 1.0,
+      "G5_refinement_turns": 1,
+      "G6_trace_coverage": 1.0,
+      "ttft_ms_p50": 3.486,
+      "ttft_ms_p95": 7.286,
+      "controller_us_p50": 1718.5,
+      "controller_us_p95": 6387.4,
+      "retrieval_ms_p50": 0.924,
+      "retrieval_ms_p95": 2.947,
+      "retrievals_per_turn": 1.692,
+      "wasted_retrievals_per_turn": 0.308,
+      "speculative_reuse_rate": 0.9615,
+      "llm_cost_usd_per_turn": 0.0,
+      "simulated_ttft_ms": {
+        "50": {
+          "p50": 3.5,
+          "p95": 7.3
+        },
+        "150": {
+          "p50": 3.5,
+          "p95": 7.3
+        },
+        "400": {
+          "p50": 3.5,
+          "p95": 7.3
+        }
+      }
+    },
+    "batch RAG baseline": {
+      "turns": 13,
+      "G2_early_retrieval_rate": 0.0,
+      "G2_false_trigger_rate": null,
+      "G2_median_lead_s": null,
+      "G3_multi_intent_rate": 0.0,
+      "G3_all_sub_intents_rate": 0.0,
+      "G3_compound_turns": 5,
+      "over_fragmentation_rate": 0.0,
+      "subintent_recall@4": 0.8333,
+      "subintent_mrr@4": 0.5926,
+      "answer_evidence_recall": 0.5556,
+      "key_fact_recall": 0.6111,
+      "unanswerable_abstention_rate": null,
+      "false_abstention_rate": 0.0769,
+      "G4_citation_support_rate": 1.0,
+      "G4_claims_checked": 18,
+      "G4_fabricated_citations": 0,
+      "G5_refinement_pass_rate": 1.0,
+      "G5_refinement_turns": 1,
+      "G6_trace_coverage": 1.0,
+      "ttft_ms_p50": 3.639,
+      "ttft_ms_p95": 5.638,
+      "controller_us_p50": 81.0,
+      "controller_us_p95": 104.9,
+      "retrieval_ms_p50": 1.867,
+      "retrieval_ms_p95": 2.882,
+      "retrievals_per_turn": 1,
+      "wasted_retrievals_per_turn": 0,
+      "speculative_reuse_rate": 0.0,
+      "llm_cost_usd_per_turn": 0.0,
+      "simulated_ttft_ms": {
+        "50": {
+          "p50": 53.6,
+          "p95": 55.6
+        },
+        "150": {
+          "p50": 153.6,
+          "p95": 155.6
+        },
+        "400": {
+          "p50": 403.6,
+          "p95": 405.6
+        }
+      }
+    }
+  },
+  "ablations": {
+    "Kairos (hybrid + streaming controller + decomposition)": {
+      "turns": 54,
+      "G2_early_retrieval_rate": 1.0,
+      "G2_false_trigger_rate": 0.0,
+      "G2_median_lead_s": 2.56,
+      "G3_multi_intent_rate": 1.0,
+      "G3_all_sub_intents_rate": 1.0,
+      "G3_compound_turns": 18,
+      "over_fragmentation_rate": 0.0,
+      "subintent_recall@4": 1.0,
+      "subintent_mrr@4": 0.9639,
+      "answer_evidence_recall": 0.8955,
+      "key_fact_recall": 0.8551,
+      "unanswerable_abstention_rate": 1.0,
+      "false_abstention_rate": 0.0455,
+      "G4_citation_support_rate": 1.0,
+      "G4_claims_checked": 99,
+      "G4_fabricated_citations": 0,
+      "G5_refinement_pass_rate": 1.0,
+      "G5_refinement_turns": 8,
+      "G6_trace_coverage": 1.0,
+      "ttft_ms_p50": 2.73,
+      "ttft_ms_p95": 5.641,
+      "controller_us_p50": 1421.3,
+      "controller_us_p95": 3416.2,
+      "retrieval_ms_p50": 0.87,
+      "retrieval_ms_p95": 2.339,
+      "retrievals_per_turn": 1.907,
+      "wasted_retrievals_per_turn": 0.611,
+      "speculative_reuse_rate": 0.9397,
+      "llm_cost_usd_per_turn": 0.0,
+      "simulated_ttft_ms": {
+        "50": {
+          "p50": 3.1,
+          "p95": 54.4
+        },
+        "150": {
+          "p50": 3.1,
+          "p95": 154.4
+        },
+        "400": {
+          "p50": 3.1,
+          "p95": 404.4
+        }
+      }
+    },
+    "baseline_batch_rag": {
+      "turns": 54,
+      "G2_early_retrieval_rate": 0.0,
+      "G2_false_trigger_rate": 0.0,
+      "G2_median_lead_s": null,
+      "G3_multi_intent_rate": 0.0,
+      "G3_all_sub_intents_rate": 0.0,
+      "G3_compound_turns": 18,
+      "over_fragmentation_rate": 0.0,
+      "subintent_recall@4": 0.9552,
+      "subintent_mrr@4": 0.7711,
+      "answer_evidence_recall": 0.6269,
+      "key_fact_recall": 0.6232,
+      "unanswerable_abstention_rate": 1.0,
+      "false_abstention_rate": 0.0682,
+      "G4_citation_support_rate": 1.0,
+      "G4_claims_checked": 62,
+      "G4_fabricated_citations": 0,
+      "G5_refinement_pass_rate": 1.0,
+      "G5_refinement_turns": 8,
+      "G6_trace_coverage": 1.0,
+      "ttft_ms_p50": 2.508,
+      "ttft_ms_p95": 4.448,
+      "controller_us_p50": 87.7,
+      "controller_us_p95": 126.8,
+      "retrieval_ms_p50": 1.087,
+      "retrieval_ms_p95": 1.889,
+      "retrievals_per_turn": 0.889,
+      "wasted_retrievals_per_turn": 0,
+      "speculative_reuse_rate": 0.0,
+      "llm_cost_usd_per_turn": 0.0,
+      "simulated_ttft_ms": {
+        "50": {
+          "p50": 52.7,
+          "p95": 54.7
+        },
+        "150": {
+          "p50": 152.7,
+          "p95": 154.7
+        },
+        "400": {
+          "p50": 402.7,
+          "p95": 404.7
+        }
+      }
+    },
+    "dense-only retrieval": {
+      "turns": 54,
+      "G2_early_retrieval_rate": 1.0,
+      "G2_false_trigger_rate": 0.0,
+      "G2_median_lead_s": 2.56,
+      "G3_multi_intent_rate": 1.0,
+      "G3_all_sub_intents_rate": 1.0,
+      "G3_compound_turns": 18,
+      "over_fragmentation_rate": 0.0,
+      "subintent_recall@4": 0.9851,
+      "subintent_mrr@4": 0.8781,
+      "answer_evidence_recall": 0.8955,
+      "key_fact_recall": 0.8406,
+      "unanswerable_abstention_rate": 1.0,
+      "false_abstention_rate": 0.0682,
+      "G4_citation_support_rate": 1.0,
+      "G4_claims_checked": 88,
+      "G4_fabricated_citations": 0,
+      "G5_refinement_pass_rate": 1.0,
+      "G5_refinement_turns": 8,
+      "G6_trace_coverage": 1.0,
+      "ttft_ms_p50": 1.961,
+      "ttft_ms_p95": 4.247,
+      "controller_us_p50": 1187.3,
+      "controller_us_p95": 2175.6,
+      "retrieval_ms_p50": 0.469,
+      "retrieval_ms_p95": 1.227,
+      "retrievals_per_turn": 1.907,
+      "wasted_retrievals_per_turn": 0.611,
+      "speculative_reuse_rate": 0.9397,
+      "llm_cost_usd_per_turn": 0.0,
+      "simulated_ttft_ms": {
+        "50": {
+          "p50": 2.4,
+          "p95": 54.0
+        },
+        "150": {
+          "p50": 2.4,
+          "p95": 154.0
+        },
+        "400": {
+          "p50": 2.4,
+          "p95": 404.0
+        }
+      }
+    },
+    "sparse-only (BM25) retrieval": {
+      "turns": 54,
+      "G2_early_retrieval_rate": 1.0,
+      "G2_false_trigger_rate": 0.0,
+      "G2_median_lead_s": 2.56,
+      "G3_multi_intent_rate": 1.0,
+      "G3_all_sub_intents_rate": 1.0,
+      "G3_compound_turns": 18,
+      "over_fragmentation_rate": 0.0,
+      "subintent_recall@4": 1.0,
+      "subintent_mrr@4": 0.9453,
+      "answer_evidence_recall": 0.8657,
+      "key_fact_recall": 0.8551,
+      "unanswerable_abstention_rate": 1.0,
+      "false_abstention_rate": 0.0682,
+      "G4_citation_support_rate": 1.0,
+      "G4_claims_checked": 96,
+      "G4_fabricated_citations": 0,
+      "G5_refinement_pass_rate": 1.0,
+      "G5_refinement_turns": 8,
+      "G6_trace_coverage": 1.0,
+      "ttft_ms_p50": 2.273,
+      "ttft_ms_p95": 4.353,
+      "controller_us_p50": 1120.0,
+      "controller_us_p95": 2100.8,
+      "retrieval_ms_p50": 0.436,
+      "retrieval_ms_p95": 1.112,
+      "retrievals_per_turn": 1.907,
+      "wasted_retrievals_per_turn": 0.611,
+      "speculative_reuse_rate": 0.9397,
+      "llm_cost_usd_per_turn": 0.0,
+      "simulated_ttft_ms": {
+        "50": {
+          "p50": 2.7,
+          "p95": 54.0
+        },
+        "150": {
+          "p50": 2.7,
+          "p95": 154.0
+        },
+        "400": {
+          "p50": 2.7,
+          "p95": 404.0
+        }
+      }
+    },
+    "eager controller (retrieve every chunk)": {
+      "turns": 54,
+      "G2_early_retrieval_rate": 1.0,
+      "G2_false_trigger_rate": 0.1429,
+      "G2_median_lead_s": 4.1,
+      "G3_multi_intent_rate": 0.9444,
+      "G3_all_sub_intents_rate": 0.9444,
+      "G3_compound_turns": 18,
+      "over_fragmentation_rate": 0.0,
+      "subintent_recall@4": 0.9701,
+      "subintent_mrr@4": 0.9378,
+      "answer_evidence_recall": 0.8806,
+      "key_fact_recall": 0.8406,
+      "unanswerable_abstention_rate": 1.0,
+      "false_abstention_rate": 0.0455,
+      "G4_citation_support_rate": 1.0,
+      "G4_claims_checked": 98,
+      "G4_fabricated_citations": 0,
+      "G5_refinement_pass_rate": 1.0,
+      "G5_refinement_turns": 8,
+      "G6_trace_coverage": 1.0,
+      "ttft_ms_p50": 2.131,
+      "ttft_ms_p95": 7.145,
+      "controller_us_p50": 939.1,
+      "controller_us_p95": 1997.7,
+      "retrieval_ms_p50": 0.551,
+      "retrieval_ms_p95": 1.641,
+      "retrievals_per_turn": 3.574,
+      "wasted_retrievals_per_turn": 2.296,
+      "speculative_reuse_rate": 0.7305,
+      "llm_cost_usd_per_turn": 0.0,
+      "simulated_ttft_ms": {
+        "50": {
+          "p50": 2.8,
+          "p95": 57.3
+        },
+        "150": {
+          "p50": 2.8,
+          "p95": 157.3
+        },
+        "400": {
+          "p50": 2.8,
+          "p95": 407.3
+        }
+      }
+    },
+    "end-of-utterance controller": {
+      "turns": 54,
+      "G2_early_retrieval_rate": 0.0,
+      "G2_false_trigger_rate": 0.0,
+      "G2_median_lead_s": null,
+      "G3_multi_intent_rate": 1.0,
+      "G3_all_sub_intents_rate": 1.0,
+      "G3_compound_turns": 18,
+      "over_fragmentation_rate": 0.0,
+      "subintent_recall@4": 1.0,
+      "subintent_mrr@4": 0.9639,
+      "answer_evidence_recall": 0.8955,
+      "key_fact_recall": 0.8551,
+      "unanswerable_abstention_rate": 1.0,
+      "false_abstention_rate": 0.0455,
+      "G4_citation_support_rate": 1.0,
+      "G4_claims_checked": 99,
+      "G4_fabricated_citations": 0,
+      "G5_refinement_pass_rate": 1.0,
+      "G5_refinement_turns": 8,
+      "G6_trace_coverage": 1.0,
+      "ttft_ms_p50": 3.286,
+      "ttft_ms_p95": 6.31,
+      "controller_us_p50": 88.0,
+      "controller_us_p95": 123.9,
+      "retrieval_ms_p50": 0.724,
+      "retrieval_ms_p95": 2.014,
+      "retrievals_per_turn": 1.296,
+      "wasted_retrievals_per_turn": 0,
+      "speculative_reuse_rate": 0.0,
+      "llm_cost_usd_per_turn": 0.0,
+      "simulated_ttft_ms": {
+        "50": {
+          "p50": 53.7,
+          "p95": 56.6
+        },
+        "150": {
+          "p50": 153.7,
+          "p95": 156.6
+        },
+        "400": {
+          "p50": 403.7,
+          "p95": 406.6
+        }
+      }
+    },
+    "no decomposition": {
+      "turns": 54,
+      "G2_early_retrieval_rate": 1.0,
+      "G2_false_trigger_rate": 0.0,
+      "G2_median_lead_s": 2.56,
+      "G3_multi_intent_rate": 0.0,
+      "G3_all_sub_intents_rate": 0.0,
+      "G3_compound_turns": 18,
+      "over_fragmentation_rate": 0.0,
+      "subintent_recall@4": 0.9552,
+      "subintent_mrr@4": 0.7711,
+      "answer_evidence_recall": 0.6269,
+      "key_fact_recall": 0.6232,
+      "unanswerable_abstention_rate": 1.0,
+      "false_abstention_rate": 0.0682,
+      "G4_citation_support_rate": 1.0,
+      "G4_claims_checked": 62,
+      "G4_fabricated_citations": 0,
+      "G5_refinement_pass_rate": 1.0,
+      "G5_refinement_turns": 8,
+      "G6_trace_coverage": 1.0,
+      "ttft_ms_p50": 1.76,
+      "ttft_ms_p95": 2.959,
+      "controller_us_p50": 1036.3,
+      "controller_us_p95": 2394.2,
+      "retrieval_ms_p50": 0.857,
+      "retrieval_ms_p95": 2.189,
+      "retrievals_per_turn": 2,
+      "wasted_retrievals_per_turn": 1.111,
+      "speculative_reuse_rate": 0.8723,
+      "llm_cost_usd_per_turn": 0.0,
+      "simulated_ttft_ms": {
+        "50": {
+          "p50": 2.0,
+          "p95": 52.8
+        },
+        "150": {
+          "p50": 2.0,
+          "p95": 152.8
+        },
+        "400": {
+          "p50": 2.0,
+          "p95": 402.8
+        }
+      }
+    }
+  },
+  "refine_vs_restart": {
+    "refine (Kairos)": {
+      "queries": 1.75,
+      "kept": 1.0,
+      "keyfacts": 0.7778
+    },
+    "restart (re-answer from scratch)": {
+      "queries": 2.12,
+      "kept": 0.0,
+      "keyfacts": 0.3333
+    }
+  },
+  "scale": [
+    {
+      "corpus": "tessera",
+      "docs": 36,
+      "chunks": 162,
+      "build_s": 0.18,
+      "p50_ms": 0.418,
+      "p95_ms": 0.666
+    },
+    {
+      "corpus": "handbook18f",
+      "docs": 23,
+      "chunks": 213,
+      "build_s": 0.62,
+      "p50_ms": 0.479,
+      "p95_ms": 1.009
+    },
+    {
+      "corpus": "pages",
+      "docs": 237,
+      "chunks": 2216,
+      "build_s": 9.01,
+      "p50_ms": 1.156,
+      "p95_ms": 1.56
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+.git
+.kairos_cache
+traces
+reports
+presentation
+demo/*.mp4
+__pycache__
+.pytest_cache

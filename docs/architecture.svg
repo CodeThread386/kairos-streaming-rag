@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" font-family="Archivo, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#1C2430"/>
+    </marker>
+    <marker id="arrb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#3355FF"/>
+    </marker>
+  </defs>
+  <rect width="1600" height="900" fill="#EEF1F4"/>
+  <text x="60" y="66" font-size="34" font-weight="800" fill="#1C2430">Kairos: streaming live RAG</text>
+  <text x="60" y="100" font-size="19" fill="#4A5565">Every transcript chunk passes the controller in about 1 ms. Retrieval starts while the user is still speaking, and the answer is patched, not restarted, when a detail arrives late.</text>
+
+  <!-- input -->
+  <rect x="60" y="160" width="230" height="300" rx="14" fill="#FFFFFF" stroke="#D6DCE3" stroke-width="2"/>
+  <text x="80" y="198" font-size="20" font-weight="700" fill="#1C2430">Transcript stream</text>
+  <text x="80" y="230" font-size="16" fill="#4A5565">Browser ASR partials</text>
+  <text x="80" y="254" font-size="16" fill="#4A5565">WebSocket chunks</text>
+  <text x="80" y="278" font-size="16" fill="#4A5565">Replay JSONL</text>
+  <text x="80" y="302" font-size="16" fill="#4A5565">(t, text) + end marker</text>
+  <g font-family="IBM Plex Mono, monospace" font-size="14" fill="#1C2430">
+    <text x="80" y="346">0.0 s  I need to plan a…</text>
+    <text x="80" y="370">0.8 s  …Pune, 30 people</text>
+    <text x="80" y="394">1.6 s  …catering options.</text>
+    <text x="80" y="418" fill="#B7791F">2.1 s  [utterance end]</text>
+  </g>
+
+  <!-- stage 1 -->
+  <rect x="330" y="160" width="270" height="300" rx="14" fill="#FFFFFF" stroke="#3355FF" stroke-width="2.5"/>
+  <text x="350" y="198" font-size="20" font-weight="700" fill="#1C2430">1  Retrieval controller</text>
+  <text x="350" y="232" font-size="16" fill="#1C2430">Turn act: new request,</text>
+  <text x="350" y="254" font-size="16" fill="#1C2430">refinement, reformat, chit-chat</text>
+  <text x="350" y="288" font-size="16" fill="#1C2430">Stability: dangling-phrase</text>
+  <text x="350" y="310" font-size="16" fill="#1C2430">check + corpus-IDF</text>
+  <text x="350" y="332" font-size="16" fill="#1C2430">informativeness + anchors</text>
+  <text x="350" y="366" font-size="16" fill="#3355FF" font-weight="700">WAIT | RETRIEVE | SUPPRESS</text>
+  <text x="350" y="388" font-size="16" fill="#3355FF" font-weight="700">| REFINE</text>
+  <text x="350" y="422" font-size="15" fill="#4A5565">Triggers: provisional, upgrade,</text>
+  <text x="350" y="442" font-size="15" fill="#4A5565">multi-intent, final, refinement</text>
+
+  <!-- stage 2 -->
+  <rect x="640" y="160" width="270" height="300" rx="14" fill="#FFFFFF" stroke="#D6DCE3" stroke-width="2"/>
+  <text x="660" y="198" font-size="20" font-weight="700" fill="#1C2430">2  Multi-intent</text>
+  <text x="660" y="222" font-size="20" font-weight="700" fill="#1C2430">    decomposer</text>
+  <text x="660" y="258" font-size="16" fill="#1C2430">Self-repair removal</text>
+  <text x="660" y="280" font-size="16" fill="#1C2430">("UK, sorry, I mean the US")</text>
+  <text x="660" y="312" font-size="16" fill="#1C2430">Clause and list splitting</text>
+  <text x="660" y="344" font-size="16" fill="#1C2430">Entity-distributive split</text>
+  <text x="660" y="376" font-size="16" fill="#1C2430">Context propagation (weak)</text>
+  <text x="660" y="408" font-size="16" fill="#1C2430">Ellipsis ("what about…")</text>
+  <text x="660" y="440" font-size="16" fill="#1C2430">Over-fragmentation guard</text>
+
+  <!-- stage 3 -->
+  <rect x="950" y="160" width="290" height="300" rx="14" fill="#FFFFFF" stroke="#D6DCE3" stroke-width="2"/>
+  <text x="970" y="198" font-size="20" font-weight="700" fill="#1C2430">3  Hybrid retrieval + fusion</text>
+  <text x="970" y="232" font-size="16" fill="#1C2430">BM25 over title+heading+text</text>
+  <text x="970" y="256" font-size="16" fill="#1C2430">WordLlama 256-d dense (CPU,</text>
+  <text x="970" y="278" font-size="16" fill="#1C2430">weights ship in the wheel)</text>
+  <text x="970" y="302" font-size="16" fill="#1C2430">Heading-dense ranker</text>
+  <text x="970" y="336" font-size="16" fill="#3355FF" font-weight="700">Reciprocal-rank fusion</text>
+  <text x="970" y="370" font-size="16" fill="#1C2430">Entity, scope-conflict and</text>
+  <text x="970" y="392" font-size="16" fill="#1C2430">capacity constraints</text>
+  <text x="970" y="426" font-size="16" fill="#1C2430">Entity-conditional scoping</text>
+  <text x="970" y="448" font-size="15" fill="#4A5565">~0.6 ms per query (p50)</text>
+
+  <!-- stage 4 -->
+  <rect x="1280" y="160" width="270" height="300" rx="14" fill="#FFFFFF" stroke="#138A62" stroke-width="2.5"/>
+  <text x="1300" y="198" font-size="20" font-weight="700" fill="#1C2430">4  Session-aware</text>
+  <text x="1300" y="222" font-size="20" font-weight="700" fill="#1C2430">    synthesis</text>
+  <text x="1300" y="258" font-size="16" fill="#1C2430">Extractive grounded</text>
+  <text x="1300" y="280" font-size="16" fill="#1C2430">composer, cite every claim</text>
+  <text x="1300" y="312" font-size="16" fill="#1C2430">IDF coverage check →</text>
+  <text x="1300" y="334" font-size="16" fill="#1C2430">explicit uncertainty</text>
+  <text x="1300" y="366" font-size="16" fill="#1C2430">Answer versions v1 → v2:</text>
+  <text x="1300" y="388" font-size="16" fill="#1C2430">preserve, add, supersede</text>
+  <text x="1300" y="420" font-size="15" fill="#4A5565">Optional LLM polish with</text>
+  <text x="1300" y="440" font-size="15" fill="#4A5565">sentence-level verifier</text>
+
+  <!-- arrows between stages -->
+  <line x1="290" y1="310" x2="326" y2="310" stroke="#1C2430" stroke-width="2.5" marker-end="url(#arr)"/>
+  <line x1="600" y1="310" x2="636" y2="310" stroke="#1C2430" stroke-width="2.5" marker-end="url(#arr)"/>
+  <line x1="910" y1="310" x2="946" y2="310" stroke="#1C2430" stroke-width="2.5" marker-end="url(#arr)"/>
+  <line x1="1240" y1="310" x2="1276" y2="310" stroke="#1C2430" stroke-width="2.5" marker-end="url(#arr)"/>
+
+  <!-- speculative reuse loop -->
+  <path d="M 1095 470 C 1095 540, 1415 540, 1415 474" fill="none" stroke="#3355FF" stroke-width="2.5" stroke-dasharray="7 6" marker-end="url(#arrb)"/>
+  <text x="1112" y="556" font-size="16" fill="#3355FF" font-weight="600">speculative results reused at utterance end (94%)</text>
+
+  <!-- output -->
+  <rect x="1280" y="600" width="270" height="170" rx="14" fill="#1C2430"/>
+  <text x="1300" y="638" font-size="20" font-weight="700" fill="#FFFFFF">Output</text>
+  <text x="1300" y="670" font-size="16" fill="#E8EDF3">Streamed answer, 2 ms TTFT</text>
+  <text x="1300" y="694" font-size="16" fill="#E8EDF3">Citations [Doc_12 §2]</text>
+  <text x="1300" y="718" font-size="16" fill="#E8EDF3">Uncertainty flag</text>
+  <text x="1300" y="742" font-size="16" fill="#E8EDF3">Structured event record</text>
+  <line x1="1415" y1="562" x2="1415" y2="596" stroke="#1C2430" stroke-width="2.5" marker-end="url(#arr)"/>
+
+  <!-- shared state rows -->
+  <rect x="330" y="600" width="910" height="78" rx="14" fill="#FFFFFF" stroke="#D6DCE3" stroke-width="2"/>
+  <text x="350" y="632" font-size="18" font-weight="700" fill="#1C2430">Session state (ephemeral, per conversation)</text>
+  <text x="350" y="660" font-size="16" fill="#4A5565">evidence ledger · answer versions with parent links · slots (entities, counts) · previous sub-intents for ellipsis and corrections</text>
+
+  <rect x="330" y="692" width="910" height="78" rx="14" fill="#FFFFFF" stroke="#D6DCE3" stroke-width="2"/>
+  <text x="350" y="724" font-size="18" font-weight="700" fill="#1C2430">Corpus-derived lexicons (built at index time, no hard-coded domain rules)</text>
+  <text x="350" y="752" font-size="16" fill="#4A5565">IDF · named entities · title-scope entities (Pune, Bengaluru…) · heading aspect vocabulary · capacity vocabulary</text>
+
+  <rect x="60" y="600" width="230" height="170" rx="14" fill="#FFFFFF" stroke="#D6DCE3" stroke-width="2"/>
+  <text x="80" y="638" font-size="18" font-weight="700" fill="#1C2430">Telemetry</text>
+  <text x="80" y="666" font-size="16" fill="#4A5565">JSON-schema-validated</text>
+  <text x="80" y="690" font-size="16" fill="#4A5565">events for every chunk,</text>
+  <text x="80" y="714" font-size="16" fill="#4A5565">decision, query, version</text>
+  <text x="80" y="738" font-size="16" fill="#4A5565">and turn (100% coverage)</text>
+
+  <text x="60" y="840" font-size="16" fill="#4A5565">Ingest: any folder of .md / .txt / .html / .pdf / .docx / .json → section chunks with stable citation IDs "Doc_ID §N" (long sections → §N.k passages).</text>
+  <text x="60" y="866" font-size="16" fill="#4A5565">CPU-only, no GPU, no network at run time, $0 LLM cost in the default mode.</text>
+</svg>

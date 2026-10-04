@@ -1,0 +1,301 @@
+{
+ "scenarios": [
+  {
+   "id": "workshop",
+   "corpus": "tessera",
+   "title": "Plan a workshop: three questions in one breath",
+   "turns": [
+    {
+     "utterance": "I need to plan a customer workshop in Pune for 30 people, and I need the cancellation policy and the catering options.",
+     "chunks": [
+      {
+       "t": 0.0,
+       "text": "I need"
+      },
+      {
+       "t": 0.77,
+       "text": "to plan"
+      },
+      {
+       "t": 1.54,
+       "text": "a customer"
+      },
+      {
+       "t": 2.31,
+       "text": "workshop in Pune"
+      },
+      {
+       "t": 3.46,
+       "text": "for 30 people, and"
+      },
+      {
+       "t": 5.0,
+       "text": "I need the cancellation"
+      },
+      {
+       "t": 6.54,
+       "text": "policy and the catering"
+      },
+      {
+       "t": 8.08,
+       "text": "options."
+      }
+     ],
+     "end_t": 8.71
+    }
+   ]
+  },
+  {
+   "id": "guide-example-1",
+   "corpus": "tessera",
+   "title": "Theme guide example 1 (exact timings)",
+   "turns": [
+    {
+     "utterance": "I need to plan a customer workshop in Pune for 30 people, and I need the cancellation policy and the catering options.",
+     "chunks": [
+      {
+       "t": 0.0,
+       "text": "I need to plan a customer workshop in"
+      },
+      {
+       "t": 0.8,
+       "text": "Pune for 30 people, and I need"
+      },
+      {
+       "t": 1.6,
+       "text": "the cancellation policy and the catering options."
+      }
+     ],
+     "end_t": 2.1
+    }
+   ]
+  },
+  {
+   "id": "reimbursement",
+   "corpus": "tessera",
+   "title": "Late detail refines the answer, then a reformat with no search",
+   "turns": [
+    {
+     "utterance": "Summarize the travel reimbursement rule for an employee trip.",
+     "chunks": [
+      {
+       "t": 0.0,
+       "text": "Summarize the travel reimbursement"
+      },
+      {
+       "t": 1.54,
+       "text": "rule for an"
+      },
+      {
+       "t": 2.69,
+       "text": "employee trip."
+      }
+     ],
+     "end_t": 3.71
+    },
+    {
+     "utterance": "The trip was international and the booking was made after travel.",
+     "chunks": [
+      {
+       "t": 0.0,
+       "text": "The trip was international"
+      },
+      {
+       "t": 1.54,
+       "text": "and the"
+      },
+      {
+       "t": 2.31,
+       "text": "booking was made"
+      },
+      {
+       "t": 3.46,
+       "text": "after travel."
+      }
+     ],
+     "end_t": 4.48
+    },
+    {
+     "utterance": "Please repeat your last answer in two bullets.",
+     "chunks": [
+      {
+       "t": 0.0,
+       "text": "Please repeat your last"
+      },
+      {
+       "t": 1.54,
+       "text": "answer in two bullets."
+      }
+     ],
+     "end_t": 3.33
+    }
+   ]
+  },
+  {
+   "id": "correction",
+   "corpus": "tessera",
+   "title": "Change of mind: a different city",
+   "turns": [
+    {
+     "utterance": "What venues do we have in Pune for a 30 person training?",
+     "chunks": [
+      {
+       "t": 0.0,
+       "text": "What venues do"
+      },
+      {
+       "t": 1.15,
+       "text": "we have"
+      },
+      {
+       "t": 1.92,
+       "text": "in Pune for a"
+      },
+      {
+       "t": 3.46,
+       "text": "30 person"
+      },
+      {
+       "t": 4.23,
+       "text": "training?"
+      }
+     ],
+     "end_t": 4.87
+    },
+    {
+     "utterance": "No wait, I meant Hyderabad, not Pune.",
+     "chunks": [
+      {
+       "t": 0.0,
+       "text": "No wait,"
+      },
+      {
+       "t": 0.77,
+       "text": "I meant"
+      },
+      {
+       "t": 1.54,
+       "text": "Hyderabad, not"
+      },
+      {
+       "t": 2.31,
+       "text": "Pune."
+      }
+     ],
+     "end_t": 2.94
+    }
+   ]
+  },
+  {
+   "id": "unknown",
+   "corpus": "tessera",
+   "title": "One answerable, one not in the documents",
+   "turns": [
+    {
+     "utterance": "Is there parking at the Orchid Business Hotel, and what's the kitchen access fee at The Deccan Courtyard?",
+     "chunks": [
+      {
+       "t": 0.0,
+       "text": "Is there parking at"
+      },
+      {
+       "t": 1.54,
+       "text": "the Orchid"
+      },
+      {
+       "t": 2.31,
+       "text": "Business Hotel, and"
+      },
+      {
+       "t": 3.46,
+       "text": "what's the"
+      },
+      {
+       "t": 4.23,
+       "text": "kitchen access"
+      },
+      {
+       "t": 5.0,
+       "text": "fee at The Deccan"
+      },
+      {
+       "t": 6.54,
+       "text": "Courtyard?"
+      }
+     ],
+     "end_t": 7.17
+    }
+   ]
+  },
+  {
+   "id": "noisy",
+   "corpus": "tessera",
+   "title": "Raw speech: fillers, no punctuation",
+   "turns": [
+    {
+     "utterance": "so um i need the hotel limit for chennai and uh also the per diem for chennai",
+     "chunks": [
+      {
+       "t": 0.0,
+       "text": "so um i need"
+      },
+      {
+       "t": 1.54,
+       "text": "the hotel limit for"
+      },
+      {
+       "t": 3.08,
+       "text": "chennai and uh"
+      },
+      {
+       "t": 4.23,
+       "text": "also the per"
+      },
+      {
+       "t": 5.38,
+       "text": "diem for chennai"
+      }
+     ],
+     "end_t": 6.79
+    }
+   ]
+  },
+  {
+   "id": "handbook",
+   "corpus": "handbook18f",
+   "title": "A real public handbook (18F, never tuned on)",
+   "turns": [
+    {
+     "utterance": "If I move to a new state, what changes with my taxes and my benefits?",
+     "chunks": [
+      {
+       "t": 0.0,
+       "text": "If I move to"
+      },
+      {
+       "t": 1.54,
+       "text": "a new"
+      },
+      {
+       "t": 2.31,
+       "text": "state, what"
+      },
+      {
+       "t": 3.08,
+       "text": "changes with"
+      },
+      {
+       "t": 3.85,
+       "text": "my taxes and"
+      },
+      {
+       "t": 5.0,
+       "text": "my benefits?"
+      }
+     ],
+     "end_t": 6.02
+    }
+   ]
+  }
+ ]
+}

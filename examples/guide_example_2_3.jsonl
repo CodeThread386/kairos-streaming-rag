@@ -1,0 +1,10 @@
+{"t": 0.0, "text": "Summarize the travel reimbursement rule"}
+{"t": 0.9, "text": "for an employee trip."}
+{"type": "end", "t": 1.6}
+{"t": 0.0, "text": "The trip was international"}
+{"t": 0.8, "text": "and the booking was made"}
+{"t": 1.5, "text": "after travel."}
+{"type": "end", "t": 2.0}
+{"t": 0.0, "text": "Please repeat your last"}
+{"t": 0.7, "text": "answer in two bullets."}
+{"type": "end", "t": 1.3}

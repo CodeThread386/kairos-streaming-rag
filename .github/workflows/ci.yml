@@ -1,0 +1,26 @@
+name: ci
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: pip install -r requirements-dev.txt
+      - run: python -m pytest -q tests
+      - run: python -m bench.run_bench --quick
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build image
+        run: docker compose build kairos
+      - name: Start service and check health
+        run: |
+          docker compose up -d kairos
+          for i in $(seq 1 30); do curl -sf localhost:8000/health && break; sleep 2; done
+          curl -sf -X POST localhost:8000/v1/replay -H 'content-type: application/json' \
+            -d '{"turns":[{"utterance":"What is the kitchen access fee at The Deccan Courtyard?"}]}'
+      - name: Automated replay suite inside the container
+        run: docker compose run --rm bench

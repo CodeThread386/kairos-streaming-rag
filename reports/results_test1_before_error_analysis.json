@@ -1,0 +1,481 @@
+{
+  "env": {
+    "generated_at": "2026-10-04 07:24:56 Asia",
+    "python": "3.13.16",
+    "platform": "Linux-6.18.44-fc-v64-x86_64-with-glibc2.39",
+    "cpu_count": 2
+  },
+  "n_sessions": {
+    "tessera_test": 40
+  },
+  "config": {
+    "corpus_path": "/home/claude/kairos-streaming-rag/corpus/tessera",
+    "index_cache_dir": ".kairos_cache",
+    "max_passage_words": 170,
+    "retrieval_mode": "hybrid",
+    "top_k": 4,
+    "rrf_k": 20,
+    "bm25_k1": 1.2,
+    "bm25_b": 0.6,
+    "w_bm25": 1.0,
+    "w_dense": 1.0,
+    "w_heading": 0.6,
+    "entity_boost": 0.35,
+    "scope_conflict_penalty": 0.45,
+    "numeric_boost": 0.3,
+    "controller_mode": "streaming",
+    "min_informativeness": 3.2,
+    "provisional_min_informativeness": 4.5,
+    "upgrade_min_new_tokens": 1,
+    "reuse_jaccard": 0.6,
+    "decomposition": true,
+    "merge_jaccard": 0.6,
+    "refinement": "refine",
+    "max_sentences_per_intent": 2,
+    "list_mode_max_items": 3,
+    "min_evidence_score": 0.3,
+    "min_aspect_coverage": 0.4,
+    "min_dense_support": 0.55,
+    "synthesis_mode": "extractive",
+    "llm_base_url": "",
+    "llm_model": "",
+    "llm_api_key": "",
+    "llm_timeout_s": 20.0,
+    "price_in_per_mtok": 0.0,
+    "price_out_per_mtok": 0.0,
+    "trace_dir": "traces",
+    "write_traces": false
+  },
+  "main": {
+    "turns": 54,
+    "G2_early_retrieval_rate": 0.9787,
+    "G2_false_trigger_rate": 0.0,
+    "G2_median_lead_s": 2.56,
+    "G3_multi_intent_rate": 0.9444,
+    "G3_all_sub_intents_rate": 0.9444,
+    "G3_compound_turns": 18,
+    "over_fragmentation_rate": 0.0,
+    "subintent_recall@4": 1.0,
+    "subintent_mrr@4": 0.9465,
+    "answer_evidence_recall": 0.806,
+    "key_fact_recall": 0.7246,
+    "unanswerable_abstention_rate": 1.0,
+    "false_abstention_rate": 0.1136,
+    "G4_citation_support_rate": 1.0,
+    "G4_claims_checked": 77,
+    "G4_fabricated_citations": 0,
+    "G5_refinement_pass_rate": 1.0,
+    "G5_refinement_turns": 8,
+    "G6_trace_coverage": 1.0,
+    "ttft_ms_p50": 1.554,
+    "ttft_ms_p95": 4.052,
+    "controller_us_p50": 1047.2,
+    "controller_us_p95": 1761.9,
+    "retrieval_ms_p50": 0.526,
+    "retrieval_ms_p95": 1.198,
+    "retrievals_per_turn": 1.796,
+    "wasted_retrievals_per_turn": 0.5,
+    "speculative_reuse_rate": 0.961,
+    "llm_cost_usd_per_turn": 0.0,
+    "_failures": [
+      {
+        "id": "T02",
+        "turn": 1,
+        "gate": "evidence",
+        "sub_intent": "standard reimbursement rule",
+        "gold": [
+          "Doc_01 §1",
+          "Doc_02 §1",
+          "Doc_05 §1"
+        ],
+        "cited": [
+          "Doc_01 §4"
+        ]
+      },
+      {
+        "id": "T02",
+        "turn": 1,
+        "gate": "key_fact",
+        "expected_any": [
+          "30 days"
+        ],
+        "answer": "Reimbursement limits for domestic trips are in the Domestic Travel Reimbursement Rules. [Doc_01 §4]"
+      },
+      {
+        "id": "T02",
+        "turn": 1,
+        "gate": "key_fact",
+        "expected_any": [
+          "receipt"
+        ],
+        "answer": "Reimbursement limits for domestic trips are in the Domestic Travel Reimbursement Rules. [Doc_01 §4]"
+      },
+      {
+        "id": "T02",
+        "turn": 2,
+        "gate": "evidence",
+        "sub_intent": "post-travel booking exception",
+        "gold": [
+          "Doc_04 §3",
+          "Doc_35 §2"
+        ],
+        "cited": [
+          "Doc_01 §4",
+          "Doc_03 §1",
+          "Doc_04 §2"
+        ]
+      },
+      {
+        "id": "T02",
+        "turn": 2,
+        "gate": "key_fact",
+        "expected_any": [
+          "Senior Director"
+        ],
+        "answer": "The earlier answer still applies: reimbursement limits for domestic trips are in the Domestic Travel Reimbursement Rules. [Doc_01 §4] However, every international trip needs pre-approval from the Vice President of the traveller's function, obtained in TravelHub at least 21 days before departure. [Do"
+      },
+      {
+        "id": "T02",
+        "turn": 2,
+        "gate": "key_fact",
+        "expected_any": [
+          "foreign currency"
+        ],
+        "answer": "The earlier answer still applies: reimbursement limits for domestic trips are in the Domestic Travel Reimbursement Rules. [Doc_01 §4] However, every international trip needs pre-approval from the Vice President of the traveller's function, obtained in TravelHub at least 21 days before departure. [Do"
+      },
+      {
+        "id": "T07",
+        "turn": 1,
+        "gate": "evidence",
+        "sub_intent": "Bengaluru venues for 40",
+        "gold": [
+          "Doc_13 §2",
+          "Doc_13 §3",
+          "Doc_13 §4"
+        ],
+        "cited": [
+          "Doc_15 §2",
+          "Doc_16 §1"
+        ]
+      },
+      {
+        "id": "T07",
+        "turn": 1,
+        "gate": "key_fact",
+        "expected_any": [
+          "Cubbon",
+          "Banyan",
+          "Nandi",
+          "Lakeview"
+        ],
+        "answer": "Bengaluru vendors: In Bengaluru, Udupi Grand Caterers provide South Indian vegetarian lunches at ₹600 per person with a minimum of 20 guests. [Doc_16 §1] The Indigo Loft, Bengaluru: The Indigo Loft allows free cancellation up to 5 days before the event. [Doc_15 §2] I could not verify fit for Bengalu"
+      },
+      {
+        "id": "T07",
+        "turn": 1,
+        "gate": "false_abstain",
+        "uncertainty": "I could not verify fit for Bengaluru from the documents."
+      },
+      {
+        "id": "T12",
+        "turn": 1,
+        "gate": "evidence",
+        "sub_intent": "hotel cap Germany",
+        "gold": [
+          "Doc_03 §3"
+        ],
+        "cited": [
+          "Doc_25 §2"
+        ]
+      },
+      {
+        "id": "T12",
+        "turn": 1,
+        "gate": "key_fact",
+        "expected_any": [
+          "USD 210"
+        ],
+        "answer": "Employees should start visa applications early: Schengen business visas take about 15 working days, Singapore business visas about 5 working days, and United States B1 visas depend on interview wait times, which can exceed 60 days. [Doc_25 §2] I could not verify cap for Germany from the documents."
+      },
+      {
+        "id": "T12",
+        "turn": 1,
+        "gate": "false_abstain",
+        "uncertainty": "I could not verify cap for Germany from the documents."
+      },
+      {
+        "id": "T13",
+        "turn": 1,
+        "gate": "evidence",
+        "sub_intent": "workshop approval",
+        "gold": [
+          "Doc_10 §4",
+          "Doc_35 §4"
+        ],
+        "cited": [
+          "Doc_10 §3"
+        ]
+      },
+      {
+        "id": "T13",
+        "turn": 1,
+        "gate": "key_fact",
+        "expected_any": [
+          "VP",
+          "Vice President"
+        ],
+        "answer": "The standard budget for a customer workshop is ₹4,000 per attendee per day, covering venue, catering and materials. [Doc_10 §3] I could not verify costs rupees from the documents."
+      },
+      {
+        "id": "T13",
+        "turn": 1,
+        "gate": "false_abstain",
+        "uncertainty": "I could not verify costs rupees from the documents."
+      },
+      {
+        "id": "T18",
+        "turn": 1,
+        "gate": "evidence",
+        "sub_intent": "domestic booking lead time",
+        "gold": [
+          "Doc_04 §1"
+        ],
+        "cited": [
+          "Doc_02 §2"
+        ]
+      },
+      {
+        "id": "T18",
+        "turn": 1,
+        "gate": "key_fact",
+        "expected_any": [
+          "14 days"
+        ],
+        "answer": "Domestic flights are booked in economy class through TravelHub. [Doc_02 §2]"
+      },
+      {
+        "id": "T20",
+        "turn": 2,
+        "gate": "evidence",
+        "sub_intent": "hybrid event AV",
+        "gold": [
+          "Doc_17 §3"
+        ],
+        "cited": [
+          "Doc_14 §2",
+          "Doc_14 §3"
+        ]
+      },
+      {
+        "id": "T20",
+        "turn": 2,
+        "gate": "key_fact",
+        "expected_any": [
+          "technician",
+          "₹6,000"
+        ],
+        "answer": "The earlier answer still applies: the Golconda Room seats 28 in classroom layout and 40 in theatre layout. [Doc_14 §2] Pearl Residency Hotel, Gachibowli — The Topaz Room seats 25 in classroom layout. [Doc_14 §3] I could not verify remote participants joining for Hyderabad from the documents."
+      },
+      {
+        "id": "T20",
+        "turn": 2,
+        "gate": "false_abstain",
+        "uncertainty": "I could not verify remote participants joining for Hyderabad from the documents."
+      },
+      {
+        "id": "T23",
+        "turn": 1,
+        "gate": "evidence",
+        "sub_intent": "hotel limit United States",
+        "gold": [
+          "Doc_03 §3"
+        ],
+        "cited": [
+          "Doc_06 §3",
+          "Doc_27 §2"
+        ]
+      },
+      {
+        "id": "T23",
+        "turn": 1,
+        "gate": "G3",
+        "utterance": "What's the per diem in the UK, sorry, I mean the United States, and the hotel limit there?",
+        "sub_queries": [
+          "What's the per diem in the United States",
+          "the hotel limit there"
+        ],
+        "matched": 1
+      },
+      {
+        "id": "T23",
+        "turn": 1,
+        "gate": "key_fact",
+        "expected_any": [
+          "USD 240"
+        ],
+        "answer": "International per diem rates: The international per diem is USD 95 per day in Singapore, USD 90 per day in Germany and the rest of the European Union, USD 100 per day in the United States, USD 105 per day in the United Kingdom and USD 70 per day in all other countries. [Doc_06 §3] Exceeding the hote"
+      },
+      {
+        "id": "T24",
+        "turn": 1,
+        "gate": "evidence",
+        "sub_intent": "gifts to customers",
+        "gold": [
+          "Doc_24 §3"
+        ],
+        "cited": [
+          "Doc_24 §4"
+        ]
+      },
+      {
+        "id": "T24",
+        "turn": 1,
+        "gate": "key_fact",
+        "expected_any": [
+          "₹3,000"
+        ],
+        "answer": "Gifts received from vendors or customers above ₹2,000 must be declared in the gift register within 7 days. [Doc_24 §4]"
+      },
+      {
+        "id": "T27",
+        "turn": 1,
+        "gate": "key_fact",
+        "expected_any": [
+          "itemised receipt",
+          "merchant"
+        ],
+        "answer": "Foreign currency receipt verification: All expenses paid in a foreign currency are subject to mandatory foreign currency receipt verification. [Doc_03 §4] Coverage: Every international business traveller is covered by the group travel insurance policy for medical emergencies up to USD 250,000, emerg"
+      },
+      {
+        "id": "T30",
+        "turn": 1,
+        "gate": "evidence",
+        "sub_intent": "two days before",
+        "gold": [
+          "Doc_32 §4"
+        ],
+        "cited": [
+          "Doc_32 §5"
+        ]
+      },
+      {
+        "id": "T30",
+        "turn": 1,
+        "gate": "key_fact",
+        "expected_any": [
+          "5%",
+          "headcount"
+        ],
+        "answer": "Send a feedback form within 2 days, upload slides and recordings to the Events drive, and close all invoices within 30 days. [Doc_32 §5]"
+      },
+      {
+        "id": "T30",
+        "turn": 2,
+        "gate": "G2",
+        "utterance": "And after the workshop?"
+      },
+      {
+        "id": "T31",
+        "turn": 1,
+        "gate": "key_fact",
+        "expected_any": [
+          "25 guests"
+        ],
+        "answer": "Spice Route Caterers: Spice Route Caterers serve North and South Indian buffets with vegetarian and non-vegetarian options. [Doc_09 §2] GreenLeaf Kitchen: GreenLeaf Kitchen offers vegetarian, vegan and Jain menus. [Doc_09 §3]"
+      },
+      {
+        "id": "T31",
+        "turn": 1,
+        "gate": "key_fact",
+        "expected_any": [
+          "48 hours"
+        ],
+        "answer": "Spice Route Caterers: Spice Route Caterers serve North and South Indian buffets with vegetarian and non-vegetarian options. [Doc_09 §2] GreenLeaf Kitchen: GreenLeaf Kitchen offers vegetarian, vegan and Jain menus. [Doc_09 §3]"
+      },
+      {
+        "id": "T34",
+        "turn": 1,
+        "gate": "key_fact",
+        "expected_any": [
+          "standard ride",
+          "screenshot"
+        ],
+        "answer": "Ride-hailing apps can be used for business travel within a city, including customer visits and airport transfers. [Doc_08 §3]"
+      },
+      {
+        "id": "T37",
+        "turn": 1,
+        "gate": "evidence",
+        "sub_intent": "per diem Chennai",
+        "gold": [
+          "Doc_06 §2"
+        ],
+        "cited": [
+          "Doc_02 §3",
+          "Doc_06 §1"
+        ]
+      },
+      {
+        "id": "T37",
+        "turn": 1,
+        "gate": "key_fact",
+        "expected_any": [
+          "₹1,500"
+        ],
+        "answer": "Hotel limits by city tier: Hotel stays are reimbursed up to ₹8,000 per night in Tier A cities (Mumbai, Delhi NCR and Bengaluru), up to ₹6,500 per night in Tier B cities (Pune, Hyderabad, Chennai and Kolkata), and up to ₹4,500 per night in all other cities. [Doc_02 §3] Per diem chennai: Receipts are "
+      },
+      {
+        "id": "T38",
+        "turn": 1,
+        "gate": "evidence",
+        "sub_intent": "Orchid cancellation within 72 hours",
+        "gold": [
+          "Doc_12 §2"
+        ],
+        "cited": [
+          "Doc_31 §3"
+        ]
+      },
+      {
+        "id": "T38",
+        "turn": 1,
+        "gate": "key_fact",
+        "expected_any": [
+          "100%"
+        ],
+        "answer": "Cancellation charges are paid from the event's cost centre. [Doc_31 §3]"
+      },
+      {
+        "id": "T40",
+        "turn": 1,
+        "gate": "evidence",
+        "sub_intent": "overnight offsite approval",
+        "gold": [
+          "Doc_36 §2"
+        ],
+        "cited": [
+          "Doc_36 §4"
+        ]
+      },
+      {
+        "id": "T40",
+        "turn": 1,
+        "gate": "key_fact",
+        "expected_any": [
+          "VP"
+        ],
+        "answer": "Alcohol is not paid for by the company at team offsites. [Doc_36 §4] I could not verify pay alcohol from the documents."
+      },
+      {
+        "id": "T40",
+        "turn": 1,
+        "gate": "false_abstain",
+        "uncertainty": "I could not verify pay alcohol from the documents."
+      }
+    ]
+  },
+  "g1": {
+    "pass": true,
+    "detail": "replay suite completed unattended in 0.9 s"
+  }
+}

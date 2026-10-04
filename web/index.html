@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kairos — streaming live RAG</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --wall:#EEF1F4; --panel:#FFFFFF; --ink:#1C2430; --ink-2:#4A5565; --muted:#7A8696; --rule:#D6DCE3;
+  --signal:#3355FF; --signal-soft:#E4E9FF; --tally:#E0A019; --tally-soft:#FFF4DB;
+  --ok:#138A62; --ok-soft:#E1F4EC; --warn:#B42318; --warn-soft:#FDECEA;
+  --font:"Archivo",ui-sans-serif,system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --wall:#161B22; --panel:#1E252E; --ink:#E8EDF3; --ink-2:#B7C1CD; --muted:#8994A3; --rule:#2E3742;
+    --signal:#7C93FF; --signal-soft:#26305A; --tally:#F0B43A; --tally-soft:#3A2F17;
+    --ok:#3CC08F; --ok-soft:#173B2E; --warn:#FF7A6B; --warn-soft:#3F1F1C;
+  }
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--wall);color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.5}
+button,select,input{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
+.wrap{max-width:1360px;margin:0 auto;padding:18px 20px 28px}
+header{display:flex;flex-wrap:wrap;align-items:flex-end;gap:14px 28px;margin-bottom:14px}
+.brand h1{margin:0;font-weight:800;font-stretch:118%;font-size:30px;letter-spacing:-.01em;line-height:1}
+.brand p{margin:4px 0 0;color:var(--ink-2);font-size:14px;max-width:46ch}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-left:auto}
+select,input[type=text]{background:var(--panel);border:1px solid var(--rule);border-radius:8px;padding:8px 10px;min-height:38px}
+input[type=text]{width:min(360px,80vw)}
+.btn{border:1px solid var(--rule);background:var(--panel);border-radius:8px;padding:8px 14px;min-height:38px;cursor:pointer;font-weight:600}
+.btn.primary{background:var(--ink);color:var(--panel);border-color:var(--ink)}
+.btn.live{background:var(--warn);border-color:var(--warn);color:#fff}
+.btn:disabled{opacity:.5;cursor:default}
+
+/* ---------- speech track (the hero) ---------- */
+.track{background:var(--panel);border:1px solid var(--rule);border-radius:14px;padding:16px 18px 12px;position:relative}
+.track-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.track-head h2{margin:0;font-size:15px;font-weight:700}
+.lead{font-stretch:112%;font-weight:700;font-size:22px;color:var(--signal);min-height:33px}
+.lead small{display:block;font-size:13px;font-weight:500;color:var(--ink-2);font-stretch:100%}
+.lane{position:relative;height:150px;margin-top:6px}
+.axis{position:absolute;left:0;right:0;bottom:22px;border-top:1px solid var(--rule)}
+.tick{position:absolute;bottom:0;font:500 11px var(--mono);color:var(--muted);transform:translateX(-50%)}
+.word{position:absolute;bottom:30px;font-size:16px;font-weight:600;white-space:nowrap;transition:opacity .2s}
+.word.repair{color:var(--muted);text-decoration:line-through}
+.ping{position:absolute;top:0;width:0;border-left:2px solid var(--signal);height:92px}
+.ping span{position:absolute;top:-2px;left:6px;font-size:12px;font-weight:600;color:var(--signal);background:var(--signal-soft);padding:1px 7px;border-radius:999px;white-space:nowrap}
+.ping.reuse{border-left-style:dashed}
+.eou{position:absolute;top:0;bottom:22px;border-left:3px solid var(--tally)}
+.eou b{position:absolute;top:104px;left:6px;font-size:12px;font-weight:700;background:var(--tally-soft);color:var(--ink);padding:1px 7px;border-radius:999px;white-space:nowrap}
+.empty-hint{position:absolute;inset:30px 0 auto 0;color:var(--muted);font-size:14px}
+
+/* ---------- panels ---------- */
+.grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:14px;margin-top:14px}
+@media (max-width:900px){.grid{grid-template-columns:1fr}}
+.panel{background:var(--panel);border:1px solid var(--rule);border-radius:14px;padding:14px 16px;min-width:0}
+.panel h2{margin:0 0 8px;font-size:15px;font-weight:700}
+.panel h3{margin:14px 0 6px;font-size:13px;font-weight:700;color:var(--ink-2)}
+.log{list-style:none;margin:0;padding:0;max-height:250px;overflow:auto}
+.log li{display:grid;grid-template-columns:52px 1fr;gap:8px;padding:6px 0;border-bottom:1px solid var(--rule);font-size:13.5px}
+.log li:last-child{border-bottom:0}
+.t{font:500 12px var(--mono);color:var(--muted);padding-top:2px}
+.dec{font-weight:700}
+.dec.WAIT{color:var(--muted)} .dec.RETRIEVE,.dec.DECOMPOSE_AND_RETRIEVE{color:var(--signal)}
+.dec.SUPPRESS{color:var(--tally)} .dec.REFINE{color:var(--ok)} .dec.SYNTHESIZE{color:var(--ink)}
+.why{color:var(--ink-2)}
+.subq{border-left:3px solid var(--signal);padding:6px 10px;margin:8px 0;background:var(--wall);border-radius:0 8px 8px 0}
+.subq .q{font-weight:600}
+.subq .meta{font-size:12px;color:var(--ink-2)}
+.hits{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.chip{font:500 12px var(--mono);border:1px solid var(--rule);background:var(--panel);border-radius:6px;padding:1px 6px;cursor:pointer}
+.chip:hover{border-color:var(--signal)}
+.trig{font-size:11.5px;font-weight:700;color:var(--signal)}
+.chip .score{color:var(--muted)}
+#subqs{max-height:300px;overflow:auto}
+.answer{font-size:17px;line-height:1.6;min-height:84px}
+.answer .cite{font:500 12px var(--mono);background:var(--signal-soft);color:var(--signal);border-radius:5px;padding:1px 5px;margin:0 2px;cursor:pointer;white-space:nowrap}
+.answer .cite.added{background:var(--ok-soft);color:var(--ok)}
+.answer .unc{display:block;margin-top:10px;padding:8px 12px;border-radius:8px;background:var(--warn-soft);color:var(--warn);font-size:14.5px}
+.versions{display:flex;gap:6px;flex-wrap:wrap;margin:-2px 0 10px}
+.vtab{border:1px solid var(--rule);background:var(--panel);border-radius:999px;padding:2px 10px;font-size:12.5px;cursor:pointer}
+.vtab[aria-pressed=true]{background:var(--ink);color:var(--panel);border-color:var(--ink)}
+.diff{font-size:13px;color:var(--ink-2);margin-top:8px}
+.diff b{color:var(--ink)}
+.source{margin-top:12px;border-top:1px solid var(--rule);padding-top:10px;font-size:14px;color:var(--ink-2);display:none}
+.source.show{display:block}
+.source .sid{font:600 12.5px var(--mono);color:var(--signal)}
+.source mark{background:var(--tally-soft);color:var(--ink);padding:0 2px}
+.you{font-size:14px;color:var(--ink-2);margin-bottom:6px}
+.you b{color:var(--ink)}
+.stats{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:0;margin-top:14px;background:var(--panel);border:1px solid var(--rule);border-radius:14px;overflow:hidden}
+@media (max-width:900px){.stats{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.stat{padding:10px 14px;border-right:1px solid var(--rule)}
+.stat:last-child{border-right:0}
+.stat .v{font-weight:800;font-stretch:112%;font-size:21px;font-variant-numeric:tabular-nums}
+.stat .k{font-size:12.5px;color:var(--ink-2)}
+details.raw{margin-top:14px}
+details.raw summary{cursor:pointer;font-weight:600;font-size:14px}
+details.raw pre{max-height:260px;overflow:auto;background:var(--panel);border:1px solid var(--rule);border-radius:10px;padding:10px;font:12px/1.45 var(--mono)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <h1>Kairos</h1>
+      <p>Streaming live RAG. It starts retrieving while you are still speaking, splits one request into the questions it contains, and refines the answer when you add a detail.</p>
+    </div>
+    <div class="controls">
+      <select id="corpus" aria-label="Document set"></select>
+      <select id="scenario" aria-label="Demo script"></select>
+      <button class="btn primary" id="play">Play script</button>
+      <button class="btn" id="mic" title="Speak a question (Chrome / Edge)">Speak</button>
+      <input type="text" id="typed" placeholder="Or type a question and watch it stream…" aria-label="Type a question">
+      <button class="btn" id="reset">New session</button>
+    </div>
+  </header>
+
+  <section class="track" aria-label="Speech timeline">
+    <div class="track-head">
+      <h2>What you said, and when retrieval started</h2>
+      <div class="lead" id="lead" aria-live="polite"></div>
+    </div>
+    <div class="lane" id="lane"><div class="axis" id="axis"></div><div class="empty-hint" id="hint">Play a script, speak, or type. Words appear here as they arrive; blue markers show each retrieval the controller fired.</div></div>
+  </section>
+
+  <div class="grid">
+    <section class="panel" aria-label="Controller decisions">
+      <h2>Retrieval controller</h2>
+      <ul class="log" id="log"></ul>
+      <h3>Sub-queries</h3>
+      <div id="subqs"><span class="why" id="subqsEmpty">None yet.</span></div>
+    </section>
+    <section class="panel" aria-label="Answer">
+      <div class="you" id="you"></div>
+      <div class="versions" id="versions"></div>
+      <h2 id="answerTitle">Answer</h2>
+      <div class="answer" id="answer"><span class="why">The grounded answer streams here, with a citation after every claim.</span></div>
+      <div class="diff" id="diff"></div>
+      <div class="source" id="source"></div>
+    </section>
+  </div>
+
+  <div class="stats" aria-label="Turn telemetry">
+    <div class="stat"><div class="v" id="sTtft">–</div><div class="k">Time to first token after you stop</div></div>
+    <div class="stat"><div class="v" id="sLead">–</div><div class="k">Retrieval lead before you stop</div></div>
+    <div class="stat"><div class="v" id="sQueries">–</div><div class="k">Queries fired / used</div></div>
+    <div class="stat"><div class="v" id="sReuse">–</div><div class="k">Speculative results reused</div></div>
+    <div class="stat"><div class="v" id="sCtrl">–</div><div class="k">Controller time per chunk</div></div>
+    <div class="stat"><div class="v" id="sCost">–</div><div class="k">LLM tokens and cost</div></div>
+  </div>
+
+  <details class="raw"><summary>Telemetry trace for this session (JSON events)</summary><pre id="trace"></pre></details>
+</div>
+
+<script>
+const $ = s => document.querySelector(s);
+const state = {ws:null, scenarios:[], corpus:null, t0:0, words:[], pings:[], maxT:6, versions:[], events:[], playing:false, recog:null, turnStart:0, chunksSent:0};
+
+function esc(s){return String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+
+async function init(){
+  const c = await (await fetch("/v1/corpora")).json();
+  $("#corpus").innerHTML = c.corpora.map(n=>`<option value="${n}">${n==="tessera"?"Tessera company policies (demo corpus)":n==="handbook18f"?"18F public handbook (real corpus)":n}</option>`).join("");
+  state.scenarios = (await (await fetch("/v1/scenarios")).json()).scenarios||[];
+  renderScenarioList();
+  connect();
+}
+function renderScenarioList(){
+  const corpus=$("#corpus").value;
+  const list=state.scenarios.filter(s=>s.corpus===corpus);
+  $("#scenario").innerHTML = list.map(s=>`<option value="${s.id}">${esc(s.title)}</option>`).join("") || `<option value="">No scripts for this corpus</option>`;
+}
+function connect(){
+  if(state.ws){state.ws.onclose=null;state.ws.close();}
+  const proto = location.protocol==="https:"?"wss":"ws";
+  state.ws = new WebSocket(`${proto}://${location.host}/v1/stream?corpus=${encodeURIComponent($("#corpus").value)}`);
+  state.ws.onmessage = ev => onMsg(JSON.parse(ev.data));
+  state.ws.onclose = () => setTimeout(connect, 1200);
+  state.events=[]; state.versions=[]; renderVersions(); $("#trace").textContent="";
+}
+function send(o){ if(state.ws && state.ws.readyState===1) state.ws.send(JSON.stringify(o)); }
+
+/* ---------------- turn lifecycle ---------------- */
+function newTurn(utterance){
+  state.words=[]; state.pings=[]; state.maxT=6; state.chunksSent=0;
+  $("#lane").querySelectorAll(".word,.ping,.eou,.tick").forEach(n=>n.remove());
+  $("#hint").style.display="none";
+  $("#lead").innerHTML=""; $("#log").innerHTML=""; $("#subqs").innerHTML='<span class="why" id="subqsEmpty">Waiting for a stable intent…</span>';
+  $("#answer").innerHTML='<span class="why">Listening…</span>'; $("#diff").textContent=""; $("#source").className="source";
+  $("#you").innerHTML=""; $("#answerTitle").textContent="Answer";
+  drawTicks();
+}
+function drawTicks(){
+  $("#lane").querySelectorAll(".tick").forEach(n=>n.remove());
+  const step = state.maxT>12?2:1;
+  for(let s=0;s<=state.maxT;s+=step){
+    const d=document.createElement("div"); d.className="tick"; d.style.left=x(s)+"%"; d.textContent=s+" s"; $("#lane").appendChild(d);
+  }
+}
+function x(t){ return 2 + 94*(t/state.maxT); }
+function ensureScale(t){ if(t>state.maxT-0.5){ state.maxT=Math.ceil(t+2); drawTicks(); relayout(); } }
+function relayout(){
+  $("#lane").querySelectorAll("[data-t]").forEach(n=>n.style.left=x(+n.dataset.t)+"%");
+}
+function placeWords(t, text){
+  ensureScale(t);
+  const el=document.createElement("div"); el.className="word"; el.dataset.t=t; el.style.left=x(t)+"%"; el.textContent=text;
+  const n=state.words.length; el.style.bottom=(30+ (n%3)*20)+"px";
+  $("#lane").appendChild(el); state.words.push(el);
+}
+function placePing(t, label, reuse){
+  ensureScale(t);
+  const el=document.createElement("div"); el.className="ping"+(reuse?" reuse":""); el.dataset.t=t; el.style.left=x(t)+"%";
+  const idx=state.pings.length; el.style.height=(92-idx*16)+"px";
+  el.innerHTML=`<span>${esc(label)}</span>`; $("#lane").appendChild(el); state.pings.push({t,el});
+}
+function placeEnd(t){
+  ensureScale(t);
+  const el=document.createElement("div"); el.className="eou"; el.dataset.t=t; el.style.left=x(t)+"%";
+  el.innerHTML=`<b>You stopped at ${t.toFixed(2)} s</b>`; $("#lane").appendChild(el);
+}
+
+/* ---------------- messages ---------------- */
+function onMsg(m){
+  if(m.type==="session"){ return; }
+  if(m.type==="events"){ m.events.forEach(onEvent); return; }
+  if(m.type==="answer_start"){ $("#answer").innerHTML=""; return; }
+  if(m.type==="answer_delta"){ $("#answer").insertAdjacentHTML("beforeend", renderCites(esc(m.text))); return; }
+  if(m.type==="record"){ onRecord(m.record); }
+}
+function onEvent(e){
+  state.events.push(e);
+  const tr=$("#trace"); tr.textContent += JSON.stringify(e)+"\n";
+  const rel = e.t_stream_s==null?null:(e.t_stream_s - state.turnStart);
+  if(e.event==="controller_decision"){
+    const li=document.createElement("li");
+    li.innerHTML=`<span class="t">${rel==null?"":rel.toFixed(2)+" s"}</span><span><span class="dec ${e.decision}">${e.decision.replaceAll("_"," ").toLowerCase()}</span> <span class="why">${esc(e.reason)}</span></span>`;
+    $("#log").appendChild(li); li.scrollIntoView({block:"nearest"});
+  }
+  if(e.event==="retrieval_started"){
+    placePing(Math.max(0,rel), e.trigger.replace("_"," "), false);
+    const ph=document.getElementById("subqsEmpty"); if(ph) ph.remove();
+    const d=document.createElement("div"); d.className="subq"; d.id="q-"+e.query_id.replace(/\W/g,"_");
+    d.innerHTML=`<div class="q">${esc(e.query)}</div><div class="meta"><span class="trig">${esc(e.trigger.replace("_"," "))}</span> at ${rel.toFixed(2)} s</div><div class="hits"></div>`;
+    $("#subqs").appendChild(d);
+  }
+  if(e.event==="retrieval_completed"){
+    const d=document.getElementById("q-"+e.query_id.replace(/\W/g,"_"));
+    if(d){ d.querySelector(".meta").insertAdjacentHTML("beforeend", ` · ${e.latency_ms.toFixed(2)} ms`);
+      d.querySelector(".hits").innerHTML = e.hits.map(h=>`<button class="chip" data-cid="${esc(h.chunk_id)}">${esc(h.chunk_id)} <span class="score">${h.score.toFixed(2)}</span></button>`).join(""); }
+  }
+  if(e.event==="sub_queries" && e.speculative_reuse){
+    const n=e.speculative_reuse.filter(Boolean).length;
+    $("#sReuse").textContent = `${n} of ${e.speculative_reuse.length}`;
+  }
+}
+function renderCites(html, added){
+  return html.replace(/\[([^\[\]]+?§[^\[\]]+?)\]/g,(m,id)=>`<span class="cite${added&&added.has(id)?" added":""}" data-cid="${id}" role="button" tabindex="0">${id}</span>`);
+}
+function onRecord(r){
+  const tel=r.telemetry;
+  const endT = state.lastEnd;
+  placeEnd(endT);
+  const evs=r.retrieval_events||[];
+  if(r.retrieval_required===false){
+    $("#lead").innerHTML=`No search needed<small>${r.reason==="presentation_restructure"?"Reformatted the previous answer without touching the corpus":"Conversational turn"}</small>`;
+  } else if(evs.length && tel.early_retrieval){
+    $("#lead").innerHTML=`Retrieval began ${tel.retrieval_lead_s.toFixed(2)} s before you finished<small>${tel.counts.retrievals_before_end} quer${tel.counts.retrievals_before_end===1?"y":"ies"} fired while you were still talking</small>`;
+  } else {
+    $("#lead").innerHTML=`Retrieved at the end of the utterance<small>No stable intent appeared earlier</small>`;
+  }
+  const v=r.answer_version;
+  const added = new Set(v&&v.mode==="refinement"? v.added:[]);
+  let html = renderCites(esc(r.answer).replace(/\n/g,"<br>"), added);
+  if(r.uncertainty){ html = html.replace(esc(r.uncertainty), ""); html += `<span class="unc">${esc(r.uncertainty)}</span>`; }
+  $("#answer").innerHTML = html;
+  if(v){ state.versions.push({v, html, you:state.lastUtterance}); renderVersions(v.version); }
+  $("#answerTitle").textContent = v ? (v.mode==="refinement"?`Answer v${v.version}, refined from v${v.parent}`: v.mode==="presentation"?`Answer v${v.version}, reformatted from v${v.parent}`:`Answer v${v.version}`) : "Reply";
+  $("#diff").innerHTML = v && v.mode==="refinement" ? `<b>${v.preserved.length}</b> earlier citation${v.preserved.length===1?"":"s"} kept, <b>${v.added.length}</b> added, <b>${v.superseded.length}</b> replaced. Only the new detail was searched.` :
+                        v && v.mode==="presentation" ? `Same evidence, new shape: <b>0</b> corpus queries.` : "";
+  $("#sTtft").textContent = tel.latency.ttft_ms.toFixed(1)+" ms";
+  $("#sLead").textContent = tel.early_retrieval? tel.retrieval_lead_s.toFixed(2)+" s" : "–";
+  $("#sQueries").textContent = `${tel.counts.retrievals_fired} / ${tel.counts.retrievals_used}`;
+  if(!tel.counts.sub_intents) $("#sReuse").textContent="–";
+  $("#sCtrl").textContent = tel.latency.controller_us_p50 ? (tel.latency.controller_us_p50/1000).toFixed(2)+" ms" : "–";
+  $("#sCost").textContent = tel.cost.llm_input_tokens+tel.cost.llm_output_tokens ? `${tel.cost.llm_input_tokens+tel.cost.llm_output_tokens} tok` : "0 tok, $0";
+  if(state.onTurnDone){ const f=state.onTurnDone; state.onTurnDone=null; f(); }
+}
+function renderVersions(active){
+  $("#versions").innerHTML = state.versions.map(o=>`<button class="vtab" aria-pressed="${o.v.version===active}" data-v="${o.v.version}">v${o.v.version} ${o.v.mode==="answer"?"":o.v.mode}</button>`).join("");
+}
+document.addEventListener("click", async ev=>{
+  const vt=ev.target.closest(".vtab");
+  if(vt){ const o=state.versions.find(o=>o.v.version==+vt.dataset.v); if(o){ $("#answer").innerHTML=o.html; renderVersions(o.v.version);} return; }
+  const c=ev.target.closest("[data-cid]"); if(!c) return;
+  const id=c.dataset.cid;
+  const res=await fetch(`/v1/chunks/${encodeURIComponent(id)}?corpus=${encodeURIComponent($("#corpus").value)}`);
+  if(!res.ok) return;
+  const ch=await res.json();
+  let text=esc(ch.text);
+  const claim=[...state.versions].reverse().flatMap(o=>o.v.claims).find(k=>k.citation===id);
+  if(claim){ const s=esc(claim.text); text=text.replace(s, `<mark>${s}</mark>`); }
+  $("#source").innerHTML=`<div><span class="sid">${esc(id)}</span> ${esc(ch.doc_title)} › ${esc(ch.heading)}</div><p>${text}</p>`;
+  $("#source").className="source show";
+});
+
+/* ---------------- inputs ---------------- */
+function beginTurn(utterance){ newTurn(utterance); state.turnStart = 0; state.lastUtterance=utterance||""; }
+function sendChunk(t, text){ placeWords(t, text); send({type:"chunk", t, text}); }
+function sendEnd(t){ state.lastEnd=t; send({type:"end", t}); }
+
+async function playScenario(){
+  const s=state.scenarios.find(s=>s.id===$("#scenario").value); if(!s||state.playing) return;
+  state.playing=true; $("#play").disabled=true;
+  send({type:"reset"}); state.versions=[]; renderVersions(); $("#trace").textContent="";
+  for(const turn of s.turns){
+    beginTurn(turn.utterance);
+    $("#you").innerHTML=`You: <b>${esc(turn.utterance)}</b>`;
+    await new Promise(resolve=>{
+      const start=performance.now();
+      turn.chunks.forEach(c=>setTimeout(()=>sendChunk(c.t, c.text), c.t*1000));
+      setTimeout(()=>{ state.onTurnDone=()=>setTimeout(resolve, 2600); sendEnd(turn.end_t); }, turn.end_t*1000);
+    });
+  }
+  state.playing=false; $("#play").disabled=false;
+}
+
+/* typing: every completed word is sent as a revised partial hypothesis */
+let typedStart=null, lastSentWords=0;
+$("#typed").addEventListener("input", ()=>{
+  const v=$("#typed").value;
+  if(typedStart===null && v.trim()){ typedStart=performance.now(); beginTurn(""); lastSentWords=0; }
+  const words=v.trim().split(/\s+/).filter(Boolean);
+  const complete = /\s$/.test(v) ? words.length : words.length-1;
+  if(complete>lastSentWords){
+    const t=(performance.now()-typedStart)/1000;
+    placeWords(t, words.slice(lastSentWords, complete).join(" "));
+    send({type:"partial", t, text: words.slice(0, complete).join(" ")});
+    lastSentWords=complete;
+  }
+});
+$("#typed").addEventListener("keydown", ev=>{
+  if(ev.key!=="Enter" || typedStart===null) return;
+  const v=$("#typed").value.trim(); const t=(performance.now()-typedStart)/1000;
+  const words=v.split(/\s+/);
+  if(words.length>lastSentWords) placeWords(t, words.slice(lastSentWords).join(" "));
+  send({type:"partial", t, text:v}); state.lastUtterance=v; $("#you").innerHTML=`You: <b>${esc(v)}</b>`;
+  setTimeout(()=>sendEnd(t+0.25), 50);
+  $("#typed").value=""; typedStart=null;
+});
+
+/* speech: browser ASR interim results are sent as revised partial hypotheses */
+$("#mic").addEventListener("click", ()=>{
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR){ $("#lead").innerHTML="Speech input needs Chrome or Edge<small>Type a question instead; it streams the same way.</small>"; return; }
+  if(state.recog){ state.recog.stop(); return; }
+  const r=new SR(); r.lang="en-IN"; r.interimResults=true; r.continuous=false;
+  const start=performance.now(); let lastWords=0, finalText="";
+  beginTurn("");
+  r.onresult = ev=>{
+    let txt=""; for(const res of ev.results) txt+=res[0].transcript;
+    const t=(performance.now()-start)/1000; const words=txt.trim().split(/\s+/);
+    if(words.length>lastWords){ placeWords(t, words.slice(lastWords).join(" ")); lastWords=words.length; }
+    send({type:"partial", t, text:txt.trim()}); finalText=txt.trim();
+  };
+  r.onend = ()=>{ state.recog=null; $("#mic").className="btn"; $("#mic").textContent="Speak";
+    if(finalText){ state.lastUtterance=finalText; $("#you").innerHTML=`You: <b>${esc(finalText)}</b>`; sendEnd((performance.now()-start)/1000); } };
+  r.start(); state.recog=r; $("#mic").className="btn live"; $("#mic").textContent="Stop";
+});
+$("#play").addEventListener("click", playScenario);
+/* scripted single-turn playback (used to record the demo video turn by turn) */
+window.kairosPlayTurn = async (sid, k) => {
+  const s = state.scenarios.find(s => s.id === sid); const turn = s.turns[k];
+  if (k === 0) { send({type:"reset"}); state.versions=[]; renderVersions(); $("#trace").textContent=""; }
+  beginTurn(turn.utterance); $("#you").innerHTML = `You: <b>${esc(turn.utterance)}</b>`;
+  await new Promise(resolve => {
+    turn.chunks.forEach(c => setTimeout(() => sendChunk(c.t, c.text), c.t*1000));
+    setTimeout(() => { state.onTurnDone = resolve; sendEnd(turn.end_t); }, turn.end_t*1000);
+  });
+  return true;
+};
+$("#reset").addEventListener("click", ()=>{ send({type:"reset"}); state.versions=[]; renderVersions(); newTurn(""); $("#hint").style.display="block"; $("#trace").textContent=""; });
+$("#corpus").addEventListener("change", ()=>{ renderScenarioList(); connect(); newTurn(""); });
+init();
+</script>
+</body>
+</html>

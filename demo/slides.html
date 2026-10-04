@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Kairos — video slides</title>
+<style>
+:root{--wall:#EEF1F4;--panel:#FFFFFF;--ink:#1C2430;--ink2:#4A5565;--signal:#3355FF;--tally:#E0A019;--ok:#138A62;--rule:#D6DCE3}
+html,body{margin:0;height:100%;background:var(--wall);color:var(--ink);font-family:"Archivo","Helvetica Neue",Arial,sans-serif}
+.slide{display:none;position:absolute;inset:0;padding:90px 120px;box-sizing:border-box}
+.slide.on{display:block}
+h1{font-size:96px;line-height:1;margin:0 0 18px;font-weight:800;letter-spacing:-.02em}
+h2{font-size:54px;margin:0 0 34px;font-weight:800;letter-spacing:-.01em}
+p.lead{font-size:34px;line-height:1.35;color:var(--ink2);max-width:28em;margin:0}
+.meta{position:absolute;left:120px;bottom:80px;font-size:24px;color:var(--ink2);line-height:1.5}
+.track{margin-top:60px;position:relative;height:230px;border-bottom:2px solid var(--rule);max-width:1680px}
+.w{position:absolute;bottom:14px;font-size:28px;font-weight:600;white-space:nowrap}
+.p{position:absolute;top:0;bottom:0;border-left:4px solid var(--signal)}
+.p span{position:absolute;top:-6px;left:10px;background:#E4E9FF;color:var(--signal);font-size:20px;font-weight:700;padding:2px 10px;border-radius:99px;white-space:nowrap}
+.e{position:absolute;top:0;bottom:-30px;border-left:5px solid var(--tally)}
+.e span{position:absolute;bottom:-2px;left:10px;font-size:20px;font-weight:700;background:#FFF4DB;padding:2px 10px;border-radius:99px;white-space:nowrap}
+.cols{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:20px}
+.col{background:var(--panel);border:2px solid var(--rule);border-radius:18px;padding:26px 28px}
+.col h3{font-size:30px;margin:0 0 12px}
+.col p{font-size:24px;line-height:1.4;color:var(--ink2);margin:0}
+.col b{color:var(--ink)}
+img.arch{width:100%;border-radius:16px;border:2px solid var(--rule)}
+table{border-collapse:collapse;font-size:27px;width:100%;background:var(--panel);border-radius:16px;overflow:hidden}
+td,th{padding:13px 22px;border-bottom:1px solid var(--rule);text-align:left}
+th{font-size:22px;color:var(--ink2);font-weight:600}
+td.v{font-weight:800;color:var(--ok);white-space:nowrap}
+.big{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:26px}
+.big div{background:var(--panel);border:2px solid var(--rule);border-radius:16px;padding:18px 24px}
+.big b{display:block;font-size:46px;font-weight:800;color:var(--signal)}
+.big span{font-size:22px;color:var(--ink2)}
+</style>
+</head>
+<body>
+<section class="slide" id="title">
+  <h1>Kairos</h1>
+  <p class="lead">Streaming live RAG that starts retrieving while you are still speaking, splits one request into the questions it contains, and refines the answer instead of restarting.</p>
+  <div class="track">
+    <div class="w" style="left:0">I need to plan a customer workshop in</div>
+    <div class="w" style="left:556px;bottom:64px">Pune for 30 people, and I need</div>
+    <div class="w" style="left:916px;bottom:114px">the cancellation policy and the catering options.</div>
+    <div class="p" style="left:540px;top:30px"><span>provisional retrieval</span></div>
+    <div class="p" style="left:900px;top:0"><span>2 parallel retrievals</span></div>
+    <div class="e" style="left:1600px;top:0"><span>you stop</span></div>
+  </div>
+  <div class="meta">Samsung PRISM Gen AI Hackathon 3.0 · Theme 04: Streaming Live RAG<br>Team VITV_Kairos_4 · VIT Vellore</div>
+</section>
+
+<section class="slide" id="problem">
+  <h2>Voice requests don't arrive as tidy queries</h2>
+  <div class="cols">
+    <div class="col"><h3>Batch RAG waits</h3><p>It does nothing until the user stops, then pays the full retrieval round trip <b>after</b> they finish.</p></div>
+    <div class="col"><h3>One query for many asks</h3><p>"Venues for 30 in Pune, the cancellation policy and catering" is <b>three</b> questions. One embedding blurs them.</p></div>
+    <div class="col"><h3>Details arrive late</h3><p>"Actually, the trip was international." Restarting throws away the evidence the answer already had.</p></div>
+  </div>
+  <p class="lead" style="margin-top:46px">Kairos decides on every transcript chunk whether to wait, retrieve or skip, and keeps a versioned, cited answer per session.</p>
+</section>
+
+<section class="slide" id="arch" style="padding:50px 90px">
+  <img class="arch" src="../docs/architecture.png" alt="Kairos architecture">
+</section>
+
+<section class="slide" id="results" style="padding:120px 110px">
+  <h2 style="margin-bottom:18px">Measured on held-out streaming tests</h2>
+  <table>
+    <tr><th>Theme 4 acceptance gate</th><th>Target</th><th>Test-1 / clean test-2</th></tr>
+    <tr><td>G2 Retrieval starts before the utterance ends</td><td>≥ 80%</td><td class="v">100% / 100%, 0% false triggers</td></tr>
+    <tr><td>G3 Multi-intent identification</td><td>≥ 70%</td><td class="v">100% / 100%</td></tr>
+    <tr><td>G4 Claims supported by the cited section</td><td>≥ 85%</td><td class="v">100% / 100%, 0 fabricated</td></tr>
+    <tr><td>G5 Late detail refines, never restarts</td><td>continuity</td><td class="v">100% / 100%</td></tr>
+    <tr><td>G1 one-command run · G6 schema-valid telemetry</td><td>pass · 100%</td><td class="v">pass · 100%</td></tr>
+  </table>
+  <div class="big">
+    <div><b>+27 pts</b><span>answers cite the right section vs batch RAG (62.7% → 89.5%)</span></div>
+    <div><b>2.4 ms</b><span>median time to first token with a 150 ms retrieval stack (batch RAG: 152 ms)</span></div>
+    <div><b>$0</b><span>LLM cost per turn: CPU only, about 1 ms of controller work per chunk</span></div>
+  </div>
+</section>
+
+<section class="slide" id="close">
+  <h1>Kairos</h1>
+  <p class="lead">Retrieval at the right moment.</p>
+  <div class="meta">github.com/CodeThread386/kairos-streaming-rag · tag PRISM_GENAI_HACKATHON_Y2026<br>Team VITV_Kairos_4 · VIT Vellore</div>
+</section>
+<script>
+function show(){ const id=(location.hash||"#title").slice(1); document.querySelectorAll(".slide").forEach(s=>s.classList.toggle("on", s.id===id)); }
+addEventListener("hashchange", show); show();
+</script>
+</body>
+</html>

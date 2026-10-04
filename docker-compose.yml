@@ -1,0 +1,24 @@
+services:
+  kairos:
+    build: .
+    image: kairos-streaming-rag:latest
+    ports:
+      - "8000:8000"
+    environment:
+      # Optional LLM polish (OFF by default). Any OpenAI-compatible endpoint, e.g. Ollama on the host:
+      # KAIROS_SYNTHESIS: llm
+      # KAIROS_LLM_BASE_URL: http://host.docker.internal:11434/v1
+      # KAIROS_LLM_MODEL: qwen2.5:7b-instruct
+      KAIROS_SYNTHESIS: ${KAIROS_SYNTHESIS:-extractive}
+      KAIROS_LLM_BASE_URL: ${KAIROS_LLM_BASE_URL:-}
+      KAIROS_LLM_MODEL: ${KAIROS_LLM_MODEL:-}
+      KAIROS_LLM_API_KEY: ${KAIROS_LLM_API_KEY:-}
+
+  # Automated replay suite: `docker compose run --rm bench`  (writes ./reports)
+  bench:
+    image: kairos-streaming-rag:latest
+    build: .
+    profiles: ["bench"]
+    command: ["sh", "-c", "python -m pytest -q tests && python -m bench.run_bench"]
+    volumes:
+      - ./reports:/app/reports
