@@ -248,6 +248,8 @@ examples/         guide examples as timestamped transcripts
 | Role | Name | Email |
 |---|---|---|
 | Primary member | Sarthak Trivedi | sarthak.trivedi2024@vitstudent.ac.in |
+| Member | Gurutheja Kavuturi | |
+| Member | Nigam Kundu | |
 
 College: VIT Vellore (VITV). Built for Samsung PRISM Gen AI Hackathon 3.0, Theme 04. AI assistance is disclosed in
 [`docs/AI_DISCLOSURE.md`](docs/AI_DISCLOSURE.md). Code: MIT licence. 18F handbook content: CC0 (see `corpus/handbook18f/LICENSE-18F-CC0.md`).

@@ -144,6 +144,8 @@ lines = ["Theme ID - 04 · Streaming Live RAG",
          "Team Name - VITV_Kairos_4",
          "College Name - VIT Vellore (VITV)",
          "Member Name & Email 1- Sarthak Trivedi, sarthak.trivedi2024@vitstudent.ac.in",
+         "Member Name 2- Gurutheja Kavuturi",
+         "Member Name 3- Nigam Kundu",
          "Submission Github link - github.com/CodeThread386/kairos-streaming-rag (tag PRISM_GENAI_HACKATHON_Y2026)"]
 paras = info.text_frame.paragraphs
 template_p = copy.deepcopy(paras[0]._p)
