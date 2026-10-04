@@ -144,9 +144,6 @@ lines = ["Theme ID - 04 · Streaming Live RAG",
          "Team Name - VITV_Kairos_4",
          "College Name - VIT Vellore (VITV)",
          "Member Name & Email 1- Sarthak Trivedi, sarthak.trivedi2024@vitstudent.ac.in",
-         "Member Name & Email 2- [name, email]",
-         "Member Name & Email 3- [name, email]",
-         "Member Name & Email 4- [name, email]",
          "Submission Github link - github.com/CodeThread386/kairos-streaming-rag (tag PRISM_GENAI_HACKATHON_Y2026)"]
 paras = info.text_frame.paragraphs
 template_p = copy.deepcopy(paras[0]._p)
@@ -339,7 +336,7 @@ s = S[10]
 body = next(sh for sh in s.placeholders if sh.placeholder_format.idx == 1)
 checks = ["Working prototype code — public GitHub repo: Y (github.com/CodeThread386/kairos-streaming-rag)",
           "README with reproducible setup instructions: Y (one-command Docker run, local steps, API and CLI examples)",
-          "Demo video, max 5 minutes: Y (demo/kairos_demo.mp4 in the repo; YouTube link in README)",
+          "Demo video, max 5 minutes: Y (demo/kairos_demo.mp4, 3 min 30 s, in the tagged commit)",
           "Presentation file (PPT or PDF): Y (presentation/VITV_Kairos_Submission.pptx + .pdf)",
           "AI disclosure: Y (docs/AI_DISCLOSURE.md + filled LangAI3.0 form)",
           "requirements.txt, Dockerfile, docker-compose.yml, tests, benchmark report: Y",
